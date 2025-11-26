@@ -1,5 +1,5 @@
 // LocalStorage Setup
-let tasks = JSON.parse(localStorage.getItem("task")) || [];
+let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 let classes = JSON.parse(localStorage.getItem("classes")) || ["All Classes"];
 
 const taskList = document.getElementById("taskList");
@@ -16,7 +16,7 @@ const taskClass = document.getElementById("taskClass");
 const taskDate = document.getElementById("taskDate");
 
 function saveState() {
-  localStorage.setItem("tasks", JSON.stringify(task));
+  localStorage.setItem("tasks", JSON.stringify(tasks));
   localStorage.setItem("classes", JSON.stringify(classes));
 }
 
@@ -46,7 +46,7 @@ function renderFilters() {
 
 function renderTasks(filter = "All Classes") {
   taskList.innerHTML = "";
-  const filtered = tasks.filter(t => filter === "All Classes" || t.class == filter);
+  const filtered = tasks.filter(t => filter === "All Classes" || t.class === filter);
   if (filtered.length === 0) {
     taskList.textContent = "No tasks yet.";
     return;
@@ -61,7 +61,7 @@ function renderTasks(filter = "All Classes") {
 function openModal() {
   document.getElementById("modalTitle").textContent = "Add New Task";
   taskTitle.value = ""; taskDesc.value = ""; taskClass.value = ""; taskDate.value = "";
-  modal.classList.remove("hiddenn");
+  modal.classList.remove("hidden");
 }
 
 function closeModal() {
@@ -86,7 +86,7 @@ saveTask.addEventListener("click", () => {
 
   saveState();
   renderFilters();
-  renderTasks("All Classess");
+  renderTasks("All Classes");
   closeModal();
 });
 
