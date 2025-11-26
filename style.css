@@ -21,9 +21,131 @@ h1 {
   margin-bottom: 20px;
 }
 
-/* Placeholder for filters and buttons (will be styled more later) */
-.filters { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:20px; }
-.filter-btn { padding:8px 12px; border-radius:20px; border:1px solid #ddd; background:#fff; cursor:pointer;}
-.add-task-btn { background:#3b73ff; color:#fff; padding:10px 14px; border:none; border-radius:8px; cursor:pointer; }
-#taskList { margin-top: 20px; }
+/* Filters */
+.filters {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
 
+.filter-btn {
+  background: #fff;
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 1px solid #d7d9e0;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.filter-btn.active {
+  background: #000;
+  color: #fff;
+}
+
+/* Add Task Button */
+.add-task-btn {
+  background: #3b73ff;
+  color: white;
+  padding: 12px 18px;
+  border-radius: 10px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+/* Task Card */
+.task-card {
+  background: white;
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.task-left h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.task-left p {
+  margin: 3px 0 10px;
+  color: #666;
+}
+
+/* Badges */
+.badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  color: white;
+  margin-right: 8px;
+}
+
+.badge-blue { background: #3b73ff; }
+.badge-green { background: #3cc46f; }
+.badge-yellow { background: #e0a526; }
+.badge-red { background: #e44d4d; }
+
+/* Icons */
+.task-actions button {
+  border: none;
+  background: none;
+  font-size: 18px;
+  cursor: pointer;
+  margin-left: 8px;
+}
+
+/* Modal */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.35);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal.hidden { display: none; }
+
+.modal-content {
+  background: #fff;
+  width: 400px;
+  padding: 25px;
+  border-radius: 14px;
+  box-shadow: 0 3px 15px rgba(0,0,0,0.2);
+}
+
+.modal-content input,
+.modal-content textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.modal-actions {
+  text-align: right;
+}
+
+.save {
+  background: #3b73ff;
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 8px;
+}
+
+.cancel {
+  background: #ccc;
+  padding: 8px 16px;
+  border-radius: 8px;
+}
