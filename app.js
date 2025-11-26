@@ -1,35 +1,36 @@
 // LocalStorage Setup
 let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 let classes = JSON.parse(localStorage.getItem("classes")) || ["All Classes"];
+let editingTaskId = null;
 
 const taskList = document.getElementById("taskList");
 const classFilters = document.getElementById("classFilters");
 
-const modal = document.getElementById("taskModal");
-const addTaskBtn = document.getElementById("addTaskBtn");
-const cancelModal = document.getElementById("cancelModal");
-const saveTask = document.getElementById("saveTask");
+// Render Everything
+renderFilters();
+renderTasks("All Classes");
 
-const taskTitle = document.getElementById("taskTitle");
-const taskDesc = document.getElementById("taskDesc");
-const taskClass = document.getElementById("taskClass");
-const taskDate = document.getElementById("taskDate");
-
-function saveState() {
-  localStorage.setItem("tasks", JSON.stringify(tasks));
-  localStorage.setItem("classes", JSON.stringify(classes));
-}
-
+//FILTER BUTTONS
 function renderFilters() {
   classFilters.innerHTML = "";
+
   classes.forEach(cls => {
     const btn = document.createElement("button");
     btn.className = "filter-btn";
     btn.textContent = cls;
-    btn.onclick = () => renderTasks(cls);
+
+    if (cls === "All Classes") btn.classList.add("active");
+
+    btn.onclick = () => {
+      document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      renderTasks(cls);
+    };
+
     classFilters.appendChild(btn);
   });
 
+  // Add Class Button
   const addClassBtn = document.createElement("button");
   addClassBtn.className = "filter-btn";
   addClassBtn.textContent = "+ Add Class";
@@ -37,58 +38,137 @@ function renderFilters() {
     const newClass = prompt("Enter class name:");
     if (newClass && !classes.includes(newClass)) {
       classes.push(newClass);
-      saveState();
+      saveClasses();
       renderFilters();
     }
   };
   classFilters.appendChild(addClassBtn);
 }
 
-function renderTasks(filter = "All Classes") {
+//TASK RENDERER
+function renderTasks(filter) {
   taskList.innerHTML = "";
-  const filtered = tasks.filter(t => filter === "All Classes" || t.class === filter);
-  if (filtered.length === 0) {
-    taskList.textContent = "No tasks yet.";
-    return;
-  }
-  filtered.forEach(t => {
-    const el = document.createElement("div");
-    el.textContent = `${t.title} — ${t.class} — ${t.date || ""}`;
-    taskList.appendChild(el);
-  });
+
+  tasks
+    .filter(t => filter === "All Classes" || t.class === filter)
+    .sort((a, b) => new Date(a.date) - new Date(b.date))
+    .forEach(task => createTaskCard(task));
 }
 
-function openModal() {
-  document.getElementById("modalTitle").textContent = "Add New Task";
-  taskTitle.value = ""; taskDesc.value = ""; taskClass.value = ""; taskDate.value = "";
+// Generate Badge Color Based on Class
+function getClassColor(cls) {
+  const map = {
+    "Computer Science": "badge-blue",
+    "Mathematics": "badge-green",
+    "English Literature": "badge-yellow"
+  };
+  return map[cls] || "badge-blue";
+}
+
+// Calculate Days Left
+function daysLeft(date) {
+  const diff = Math.ceil((new Date(date) - new Date()) / (1000 * 60 * 60 * 24));
+  return diff <= 0 ? "Due today" : `${diff} days left`;
+}
+
+//TASK CARD
+function createTaskCard(task) {
+  const card = document.createElement("div");
+  card.className = "task-card";
+
+  card.innerHTML = `
+    <div class="task-left">
+      <h3>${task.title}</h3>
+      <p>${task.desc || ""}</p>
+
+      <span class="badge ${getClassColor(task.class)}">${task.class}</span>
+      <span class="badge badge-blue">${daysLeft(task.date)}</span>
+    </div>
+
+    <div class="task-actions">
+      <button onclick="editTask(${task.id})" title="Edit">✏️</button>
+      <button onclick="deleteTask(${task.id})" title="Delete">🗑️</button>
+    </div>
+  `;
+
+  taskList.appendChild(card);
+}
+
+//TASK MODAL
+const modal = document.getElementById("taskModal");
+
+document.getElementById("addTaskBtn").onclick = () => openModal();
+document.getElementById("cancelModal").onclick = () => closeModal();
+
+function openModal(task = null) {
   modal.classList.remove("hidden");
+
+  if (task) {
+    editingTaskId = task.id;
+    document.getElementById("modalTitle").textContent = "Edit Task";
+    document.getElementById("taskTitle").value = task.title;
+    document.getElementById("taskDesc").value = task.desc;
+    document.getElementById("taskClass").value = task.class;
+    document.getElementById("taskDate").value = task.date;
+  } else {
+    editingTaskId = null;
+    document.getElementById("modalTitle").textContent = "Add New Task";
+    document.getElementById("taskTitle").value = "";
+    document.getElementById("taskDesc").value = "";
+    document.getElementById("taskClass").value = "";
+    document.getElementById("taskDate").value = "";
+  }
 }
 
 function closeModal() {
   modal.classList.add("hidden");
 }
 
-addTaskBtn.addEventListener("click", openModal);
-cancelModal.addEventListener("click", closeModal);
+//SAVE TASK
+document.getElementById("saveTask").onclick = () => {
+  const title = document.getElementById("taskTitle").value;
+  const desc = document.getElementById("taskDesc").value;
+  const cls = document.getElementById("taskClass").value;
+  const date = document.getElementById("taskDate").value;
 
-saveTask.addEventListener("click", () => {
-  const title = taskTitle.value.trim();
-  const desc = taskDesc.value.trim();
-  const cls = taskClass.value.trim();
-  const date = taskDate.value;
+  if (!title || !cls || !date) return alert("Please fill all fields.");
 
-  if (!title || !cls || !date) {
-    return alert("Please fill Title, Class and Date.");
+  // Add Class Automatically
+  if (!classes.includes(cls)) {
+    classes.push(cls);
+    saveClasses();
+    renderFilters();
   }
 
-  if (!classes.includes(cls)) classes.push(cls);
-  tasks.push({ id: Date.now(), title, desc, class: cls, date });
+  if (editingTaskId) {
+    // Update
+    const t = tasks.find(t => t.id === editingTaskId);
+    t.title = title;
+    t.desc = desc;
+    t.class = cls;
+    t.date = date;
+  } else {
+    // Create
+    tasks.push({ id: Date.now(), title, desc, class: cls, date });
+  }
 
-  saveState();
-  renderFilters();
+  saveTasks();
   renderTasks("All Classes");
   closeModal();
-});
+};
 
-renderFilters();
-renderTasks();
+//DELETE
+function deleteTask(id) {
+  tasks = tasks.filter(t => t.id !== id);
+  saveTasks();
+  renderTasks("All Classes");
+}
+
+//STORAGE
+function saveTasks() {
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+}
+
+function saveClasses() {
+  localStorage.setItem("classes", JSON.stringify(classes));
+}
