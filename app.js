@@ -1,11 +1,25 @@
 // LocalStorage Setup
-let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+let tasks = JSON.parse(localStorage.getItem("task")) || [];
 let classes = JSON.parse(localStorage.getItem("classes")) || ["All Classes"];
 
 const taskList = document.getElementById("taskList");
 const classFilters = document.getElementById("classFilters");
 
-// Render Filters and Tasks
+const modal = document.getElementById("taskModal");
+const addTaskBtn = document.getElementById("addTaskBtn");
+const cancelModal = document.getElementById("cancelModal");
+const saveTask = document.getElementById("saveTask");
+
+const taskTitle = document.getElementById("taskTitle");
+const taskDesc = document.getElementById("taskDesc");
+const taskClass = document.getElementById("taskClass");
+const taskDate = document.getElementById("taskDate");
+
+function saveState() {
+  localStorage.setItem("tasks", JSON.stringify(task));
+  localStorage.setItem("classes", JSON.stringify(classes));
+}
+
 function renderFilters() {
   classFilters.innerHTML = "";
   classes.forEach(cls => {
@@ -23,7 +37,7 @@ function renderFilters() {
     const newClass = prompt("Enter class name:");
     if (newClass && !classes.includes(newClass)) {
       classes.push(newClass);
-      localStorage.setItem("classes", JSON.stringify(classes));
+      saveState();
       renderFilters();
     }
   };
@@ -32,7 +46,7 @@ function renderFilters() {
 
 function renderTasks(filter = "All Classes") {
   taskList.innerHTML = "";
-  const filtered = tasks.filter(t => filter === "All Classes" || t.class === filter);
+  const filtered = tasks.filter(t => filter === "All Classes" || t.class == filter);
   if (filtered.length === 0) {
     taskList.textContent = "No tasks yet.";
     return;
@@ -43,6 +57,38 @@ function renderTasks(filter = "All Classes") {
     taskList.appendChild(el);
   });
 }
+
+function openModal() {
+  document.getElementById("modalTitle").textContent = "Add New Task";
+  taskTitle.value = ""; taskDesc.value = ""; taskClass.value = ""; taskDate.value = "";
+  modal.classList.remove("hiddenn");
+}
+
+function closeModal() {
+  modal.classList.add("hidden");
+}
+
+addTaskBtn.addEventListener("click", openModal);
+cancelModal.addEventListener("click", closeModal);
+
+saveTask.addEventListener("click", () => {
+  const title = taskTitle.value.trim();
+  const desc = taskDesc.value.trim();
+  const cls = taskClass.value.trim();
+  const date = taskDate.value;
+
+  if (!title || !cls || !date) {
+    return alert("Please fill Title, Class and Date.");
+  }
+
+  if (!classes.includes(cls)) classes.push(cls);
+  tasks.push({ id: Date.now(), title, desc, class: cls, date });
+
+  saveState();
+  renderFilters();
+  renderTasks("All Classess");
+  closeModal();
+});
 
 renderFilters();
 renderTasks();
