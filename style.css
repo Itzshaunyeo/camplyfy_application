@@ -1,1 +1,29 @@
+body {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  background: linear-gradient(to bottom right, #f7f9ff, #ffffff);
+}
+
+.container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+h1 {
+  font-size: 38px;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.subtitle {
+  color: #555;
+  margin-bottom: 20px;
+}
+
+/* Placeholder for filters and buttons (will be styled more later) */
+.filters { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:20px; }
+.filter-btn { padding:8px 12px; border-radius:20px; border:1px solid #ddd; background:#fff; cursor:pointer;}
+.add-task-btn { background:#3b73ff; color:#fff; padding:10px 14px; border:none; border-radius:8px; cursor:pointer; }
+#taskList { margin-top: 20px; }
 
