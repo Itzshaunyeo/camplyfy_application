@@ -2,17 +2,42 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Campus Tasks (WIP)</title>
+  <title>Campus Tasks</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+
   <div class="container">
     <h1>Campus Tasks</h1>
-    <p class="subtitle">Work in progress...</p>
+    <p class="subtitle">Stay organized with your coursework and assignments</p>
 
+    <!-- Filter Buttons -->
     <div id="classFilters" class="filters"></div>
+
     <button id="addTaskBtn" class="add-task-btn">＋ Add New Task</button>
+
+    <!-- Task List -->
     <div id="taskList"></div>
   </div>
+
+  <!-- Model -->
+  <div id="taskModal" class="modal hidden">
+    <div class="modal-content">
+      <h2 id="modalTitle">Add New Task</h2>
+
+      <input id="taskTitle" type="text" placeholder="Task Title" />
+      <textarea id="taskDesc" placeholder="Task Description"></textarea>
+
+      <input id="taskClass" type="text" placeholder="Class (e.g. Mathematics)" />
+      <input id="taskDate" type="date" />
+
+      <div class="modal-actions">
+        <button id="saveTask" class="save">Save</button>
+        <button id="cancelModal" class="cancel">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
 </body>
 </html>
