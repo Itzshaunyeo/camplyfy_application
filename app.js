@@ -1,6 +1,7 @@
 // LocalStorage Setup
 let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 let classes = JSON.parse(localStorage.getItem("classes")) || ["All Classes"];
+let classColors = JSON.parse(localStorage.getItem("classColors")) || {};
 let editingTaskId = null;
 
 const taskList = document.getElementById("taskList");
@@ -15,13 +16,43 @@ function renderFilters() {
   classFilters.innerHTML = "";
 
   classes.forEach(cls => {
-    const btn = document.createElement("button");
+    const btn = document.createElement("div");
     btn.className = "filter-btn";
-    btn.textContent = cls;
+    btn.style.display = "flex";
+    btn.style.alignItems = "center";
+    btn.style.gap = "6px";
+    btn.style.padding = "6px 12px";
+    btn.style.cursor = "pointer";
 
+    // Class name text
+    const text = document.createElement("span");
+    text.textContent = cls;
+    btn.appendChild(text);
+
+    // Inline color picker for user-selected classes
+    if (cls !== "All Classes") {
+      const colorInput = document.createElement("input");
+      colorInput.type = "color";
+      colorInput.value = classColors[cls] || "#3b73ff";
+      colorInput.title = "Pick badge color";
+      colorInput.style.width = "20px";
+      colorInput.style.height = "20px";
+      colorInput.style.border = "none";
+      colorInput.style.padding = "0";
+      colorInput.style.cursor = "pointer";
+
+      colorInput.onchange = (e) => {
+        classColors[cls] = e.target.value;
+        saveClassColors();
+        renderTasks(getActiveFilter());
+      };
+      btn.appendChild(colorInput);
+    }
+
+    // Active filter logic
     if (cls === "All Classes") btn.classList.add("active");
-
-    btn.onclick = () => {
+    btn.onclick = (e) => {
+      if (e.target.tagName === "INPUT") return; // ignore clicks on color picker
       document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
       renderTasks(cls);
@@ -37,12 +68,21 @@ function renderFilters() {
   addClassBtn.onclick = () => {
     const newClass = prompt("Enter class name:");
     if (newClass && !classes.includes(newClass)) {
+      const color = prompt("Pick a color for this class (hex code, e.g., #3b73ff):", "#3b73ff") || "#3b73ff";
       classes.push(newClass);
+      classColors[newClass] = color;
       saveClasses();
+      saveClassColors();
       renderFilters();
     }
   };
   classFilters.appendChild(addClassBtn);
+}
+
+// Helper: get currently active filter
+function getActiveFilter() {
+  const activeBtn = document.querySelector(".filter-btn.active");
+  return activeBtn ? activeBtn.textContent.replace("+ Add Class", "") : "All Classes";
 }
 
 //TASK RENDERER
@@ -55,14 +95,9 @@ function renderTasks(filter) {
     .forEach(task => createTaskCard(task));
 }
 
-// Generate Badge Color Based on Class
+//GET CLASS COLOR
 function getClassColor(cls) {
-  const map = {
-    "Computer Science": "badge-blue",
-    "Mathematics": "badge-green",
-    "English Literature": "badge-yellow"
-  };
-  return map[cls] || "badge-blue";
+  return classColors[cls] || "#3b73ff";
 }
 
 // Calculate Days Left
@@ -81,7 +116,9 @@ function createTaskCard(task) {
       <h3>${task.title}</h3>
       <p>${task.desc || ""}</p>
 
-      <span class="badge ${getClassColor(task.class)}">${task.class}</span>
+      <span class="badge" style="background:${getClassColor(task.class)}">
+        ${task.class}
+      </span>
       <span class="badge badge-blue">${daysLeft(task.date)}</span>
     </div>
 
@@ -96,7 +133,6 @@ function createTaskCard(task) {
 
 //TASK MODAL
 const modal = document.getElementById("taskModal");
-
 document.getElementById("addTaskBtn").onclick = () => openModal();
 document.getElementById("cancelModal").onclick = () => closeModal();
 
@@ -126,9 +162,9 @@ function closeModal() {
 
 //SAVE TASK
 document.getElementById("saveTask").onclick = () => {
-  const title = document.getElementById("taskTitle").value;
-  const desc = document.getElementById("taskDesc").value;
-  const cls = document.getElementById("taskClass").value;
+  const title = document.getElementById("taskTitle").value.trim();
+  const desc = document.getElementById("taskDesc").value.trim();
+  const cls = document.getElementById("taskClass").value.trim();
   const date = document.getElementById("taskDate").value;
 
   if (!title || !cls || !date) return alert("Please fill all fields.");
@@ -136,32 +172,38 @@ document.getElementById("saveTask").onclick = () => {
   // Add Class Automatically
   if (!classes.includes(cls)) {
     classes.push(cls);
+    classColors[cls] = "#3b73ff"; // default color
     saveClasses();
+    saveClassColors();
     renderFilters();
   }
 
   if (editingTaskId) {
-    // Update
     const t = tasks.find(t => t.id === editingTaskId);
     t.title = title;
     t.desc = desc;
     t.class = cls;
     t.date = date;
   } else {
-    // Create
     tasks.push({ id: Date.now(), title, desc, class: cls, date });
   }
 
   saveTasks();
-  renderTasks("All Classes");
+  renderTasks(getActiveFilter());
   closeModal();
 };
 
-//DELETE
+//DELETE TASK
 function deleteTask(id) {
   tasks = tasks.filter(t => t.id !== id);
   saveTasks();
-  renderTasks("All Classes");
+  renderTasks(getActiveFilter());
+}
+
+//EDIT TASK
+function editTask(id) {
+  const task = tasks.find(t => t.id === id);
+  if (task) openModal(task);
 }
 
 //STORAGE
@@ -171,4 +213,8 @@ function saveTasks() {
 
 function saveClasses() {
   localStorage.setItem("classes", JSON.stringify(classes));
+}
+
+function saveClassColors() {
+  localStorage.setItem("classColors", JSON.stringify(classColors));
 }
