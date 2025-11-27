@@ -65,16 +65,15 @@ function renderFilters() {
   classFilters.appendChild(addClassBtn);
 }
 
-// Delete Class
+// Delete Class — updated (no uncategorized fallback)
 function deleteClass(cls) {
-  if (!confirm(`Delete class "${cls}"?`)) return;
+  if (!confirm(`Delete class "${cls}" and ALL its tasks?`)) return;
 
+  // Remove class from class list
   classes = classes.filter(c => c !== cls);
-  tasks = tasks.map(t => t.class === cls ? { ...t, class: "Uncategorized" } : t);
 
-  if (!classes.includes("Uncategorized")) {
-    classes.push("Uncategorized");
-  }
+  // Remove all tasks with this class
+  tasks = tasks.filter(t => t.class !== cls);
 
   saveClasses();
   saveTasks();
@@ -97,8 +96,7 @@ function getClassColor(cls) {
   const map = {
     "Computer Science": "badge-blue",
     "Mathematics": "badge-green",
-    "English Literature": "badge-yellow",
-    "Uncategorized": "badge-red"
+    "English Literature": "badge-yellow"
   };
   return map[cls] || "badge-blue";
 }
@@ -208,3 +206,4 @@ function saveTasks() {
 function saveClasses() {
   localStorage.setItem("classes", JSON.stringify(classes));
 }
+
