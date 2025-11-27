@@ -480,3 +480,7 @@ body.dark .modal-actions .save {
 body.dark .modal-actions .save:hover {
   background: rgba(92,139,255,0.2);
 }
+
+body.dark input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1) brightness(1.6);
+}
