@@ -10,11 +10,14 @@ const classFilters = document.getElementById("classFilters");
 renderFilters();
 renderTasks("All Classes");
 
-//FILTER BUTTONS
+// FILTER BUTTONS
 function renderFilters() {
   classFilters.innerHTML = "";
 
   classes.forEach(cls => {
+    const wrapper = document.createElement("div");
+    wrapper.className = "filter-wrapper";
+
     const btn = document.createElement("button");
     btn.className = "filter-btn";
     btn.textContent = cls;
@@ -27,7 +30,24 @@ function renderFilters() {
       renderTasks(cls);
     };
 
-    classFilters.appendChild(btn);
+    wrapper.appendChild(btn);
+
+    // Delete Class Button (except All Classes)
+    if (cls !== "All Classes") {
+      const delBtn = document.createElement("span");
+      delBtn.className = "delete-class";
+      delBtn.textContent = "✖";
+      delBtn.title = "Delete Class";
+
+      delBtn.onclick = (e) => {
+        e.stopPropagation();
+        deleteClass(cls);
+      };
+
+      wrapper.appendChild(delBtn);
+    }
+
+    classFilters.appendChild(wrapper);
   });
 
   // Add Class Button
@@ -45,7 +65,24 @@ function renderFilters() {
   classFilters.appendChild(addClassBtn);
 }
 
-//TASK RENDERER
+// Delete Class
+function deleteClass(cls) {
+  if (!confirm(`Delete class "${cls}"?`)) return;
+
+  classes = classes.filter(c => c !== cls);
+  tasks = tasks.map(t => t.class === cls ? { ...t, class: "Uncategorized" } : t);
+
+  if (!classes.includes("Uncategorized")) {
+    classes.push("Uncategorized");
+  }
+
+  saveClasses();
+  saveTasks();
+  renderFilters();
+  renderTasks("All Classes");
+}
+
+// TASK RENDERER
 function renderTasks(filter) {
   taskList.innerHTML = "";
 
@@ -55,12 +92,13 @@ function renderTasks(filter) {
     .forEach(task => createTaskCard(task));
 }
 
-// Generate Badge Color Based on Class
+// Badge color generator
 function getClassColor(cls) {
   const map = {
     "Computer Science": "badge-blue",
     "Mathematics": "badge-green",
-    "English Literature": "badge-yellow"
+    "English Literature": "badge-yellow",
+    "Uncategorized": "badge-red"
   };
   return map[cls] || "badge-blue";
 }
@@ -71,7 +109,7 @@ function daysLeft(date) {
   return diff <= 0 ? "Due today" : `${diff} days left`;
 }
 
-//TASK CARD
+// TASK CARD
 function createTaskCard(task) {
   const card = document.createElement("div");
   card.className = "task-card";
@@ -94,7 +132,7 @@ function createTaskCard(task) {
   taskList.appendChild(card);
 }
 
-//TASK MODAL
+// MODAL
 const modal = document.getElementById("taskModal");
 
 document.getElementById("addTaskBtn").onclick = () => openModal();
@@ -124,7 +162,7 @@ function closeModal() {
   modal.classList.add("hidden");
 }
 
-//SAVE TASK
+// SAVE TASK
 document.getElementById("saveTask").onclick = () => {
   const title = document.getElementById("taskTitle").value;
   const desc = document.getElementById("taskDesc").value;
@@ -133,7 +171,7 @@ document.getElementById("saveTask").onclick = () => {
 
   if (!title || !cls || !date) return alert("Please fill all fields.");
 
-  // Add Class Automatically
+  // Auto-add class if new
   if (!classes.includes(cls)) {
     classes.push(cls);
     saveClasses();
@@ -141,14 +179,12 @@ document.getElementById("saveTask").onclick = () => {
   }
 
   if (editingTaskId) {
-    // Update
     const t = tasks.find(t => t.id === editingTaskId);
     t.title = title;
     t.desc = desc;
     t.class = cls;
     t.date = date;
   } else {
-    // Create
     tasks.push({ id: Date.now(), title, desc, class: cls, date });
   }
 
@@ -157,14 +193,14 @@ document.getElementById("saveTask").onclick = () => {
   closeModal();
 };
 
-//DELETE
+// DELETE TASK
 function deleteTask(id) {
   tasks = tasks.filter(t => t.id !== id);
   saveTasks();
   renderTasks("All Classes");
 }
 
-//STORAGE
+// STORAGE
 function saveTasks() {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 }
