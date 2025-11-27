@@ -484,3 +484,67 @@ body.dark .modal-actions .save:hover {
 body.dark input[type="date"]::-webkit-calendar-picker-indicator {
   filter: invert(1) brightness(1.6);
 }
+
+/*---------------------------------------- LOGIN SCREEN ----------------------------------------*/
+.login-screen {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  transition: opacity 0.4s ease;
+}
+
+.login-box {
+  background: var(--card-bg);
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 0 20px var(--shadow);
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  text-align: center;
+}
+
+.login-title {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.login-box input {
+  padding: 12px;
+  border-radius: 12px;
+  border: 2px solid var(--border);
+  background: var(--input-bg);
+  color: var(--text);
+  font-size: 16px;
+}
+
+.login-btn {
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: 0.2s;
+}
+
+.login-btn:hover {
+  opacity: 0.9;
+}
+
+.login-note {
+  font-size: 13px;
+  opacity: 0.6;
+}
+
+/* Fade out when logged in */
+.login-screen.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
