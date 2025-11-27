@@ -79,6 +79,7 @@ h1 {
   margin-bottom: 20px;
 }
 
+
 /* Task Card */
 .task-card {
   background: white;
@@ -155,6 +156,23 @@ h1 {
   margin-bottom: 12px;
   border-radius: 8px;
   border: 1px solid #ccc;
+}
+
+.modal-content select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background: #fff;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.modal-content select:focus {
+  outline: none;
+  border-color: #3b73ff;
+  box-shadow: 0 0 0 2px rgba(59,115,255,0.2);
 }
 
 .modal-actions {
