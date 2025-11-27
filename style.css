@@ -79,7 +79,6 @@ h1 {
   margin-bottom: 20px;
 }
 
-
 /* Task Card */
 .task-card {
   background: white;
@@ -151,7 +150,7 @@ h1 {
   font-family: "Inter", sans-serif;
 }
 
-/* Inputs */
+/* General form font */
 .modal-content input,
 .modal-content textarea,
 .modal-content select,
@@ -160,35 +159,39 @@ h1 {
   font-size: 15px;
 }
 
-/* Input & Textarea style */
+/* Equal-width Inputs, Textarea, Select */
 .modal-content input,
-.modal-content textarea {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 12px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-}
-
-/* Dropdown select styling */
+.modal-content textarea,
 .modal-content select {
   width: 100%;
   padding: 10px;
   margin-bottom: 12px;
   border-radius: 8px;
   border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+/* Date input icon fix */
+.modal-content input[type="date"] {
+  padding-right: 35px;
+}
+
+/* Dropdown styling */
+.modal-content select {
   background: #fff;
   cursor: pointer;
 }
 
-/* Focus style for select */
-.modal-content select:focus {
+/* Focus effect */
+.modal-content select:focus,
+.modal-content input:focus,
+.modal-content textarea:focus {
   outline: none;
   border-color: #3b73ff;
   box-shadow: 0 0 0 2px rgba(59,115,255,0.2);
 }
 
-/* Modal buttons */
+/* Modal Buttons */
 .modal-actions {
   text-align: right;
 }
