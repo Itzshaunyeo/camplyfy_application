@@ -21,6 +21,40 @@ h1 {
   margin-bottom: 20px;
 }
 
+/* Progress Bar */
+.overall-progress-wrapper {
+  width: 350px;
+  margin-bottom: 25px;
+}
+
+.progress-header {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.progress-bar-background {
+  width: 100%;
+  height: 10px;
+  background: #e3e6ef;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: #3b73ff;
+  border-radius: 20px;
+  transition: width 0.35s ease;
+}
+
+.progress-percent {
+  margin-top: 6px;
+  font-size: 14px;
+  color: #444;
+}
+
 /* Filters */
 .filters {
   display: flex;
@@ -125,6 +159,14 @@ h1 {
   margin-left: 8px;
 }
 
+/* Checkbox styling */
+.task-checkbox {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  margin-right: 15px;
+}
+
 /* Modal */
 .modal {
   position: fixed;
@@ -198,13 +240,4 @@ h1 {
 
 .save {
   background: #3b73ff;
-  color: #fff;
-  padding: 8px 16px;
-  border-radius: 8px;
-}
-
-.cancel {
-  background: #ccc;
-  padding: 8px 16px;
-  border-radius: 8px;
-}
+  color
