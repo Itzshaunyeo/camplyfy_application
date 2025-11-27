@@ -138,12 +138,13 @@ function createTaskCard(task) {
   card.className = "task-card";
 
   card.innerHTML = `
-    <div class="task-left-group">
+    <div class="task-left-wrapper">
       <input type="checkbox" class="task-checkbox" ${task.done ? "checked" : ""} />
 
       <div class="task-left">
         <h3>${task.title}</h3>
         <p>${task.desc || ""}</p>
+
         <span class="badge ${getClassColor(task.class)}">${task.class}</span>
         <span class="badge badge-blue">${daysLeft(task.date)}</span>
       </div>
