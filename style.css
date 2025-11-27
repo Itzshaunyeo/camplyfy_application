@@ -318,3 +318,116 @@ h1 {
   position: absolute;
   top: -1px;
 }
+
+
+/*---------------------------------------- DARK MODE ----------------------------------------*/
+
+
+body.dark {
+  background: #0e0f13;
+  color: #f1f1f1;
+  transition: 0.3s ease;
+}
+
+/* Text */
+body.dark .subtitle,
+body.dark h1 {
+  color: #ffffff;
+}
+
+/* Progress Bar */
+body.dark .progress-bar-background {
+  background: #3a3a3a;
+}
+
+body.dark .progress-bar-fill {
+  background: #5c8bff;
+}
+
+body.dark .progress-percent {
+  color: #dddddd;
+}
+
+/* Filters */
+body.dark .filter-btn {
+  background: #1b1c22;
+  border-color: #3d3d3d;
+  color: #e5e5e5;
+}
+
+body.dark .filter-btn.active {
+  background: #ffffff;
+  color: #000;
+}
+
+body.dark .delete-class {
+  color: #bbb;
+}
+
+/* Add Task Button */
+body.dark .add-task-btn {
+  background: #5c8bff;
+  color: white;
+}
+
+/* Task Cards */
+body.dark .task-card {
+  background: #1b1c22;
+  color: #f1f1f1;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+
+/* Checkbox */
+body.dark .task-checkbox {
+  border-color: #888;
+}
+
+body.dark .task-checkbox:checked {
+  background: #5c8bff;
+  border-color: #5c8bff;
+}
+
+/* Badges */
+body.dark .badge-blue { background: #5c8bff; }
+body.dark .badge-green { background: #2fa85e; }
+body.dark .badge-yellow { background: #c39628; }
+body.dark .badge-red { background: #cc3b3b; }
+
+/* Task Action Buttons */
+body.dark .task-actions button {
+  color: #ffffff;
+}
+
+/* Modal */
+body.dark .modal-content {
+  background: #1b1c22;
+  color: #ffffff;
+  border: 1px solid #333;
+}
+
+body.dark .modal-content input,
+body.dark .modal-content textarea,
+body.dark .modal-content select {
+  background: #111218;
+  border: 1px solid #444;
+  color: white;
+}
+
+body.dark .modal-actions button {
+  background: #111218;
+  border-color: #555;
+  color: white;
+}
+
+body.dark .modal-actions button:hover {
+  background: #22242c;
+}
+
+body.dark .modal-actions .save {
+  border-color: #5c8bff;
+  color: #5c8bff;
+}
+
+body.dark .modal-actions .save:hover {
+  background: rgba(92,139,255,0.2);
+}
