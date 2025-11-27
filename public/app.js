@@ -274,7 +274,6 @@ loginBtn.addEventListener("click", () => {
   const u = document.getElementById("loginUser").value.trim();
   const p = document.getElementById("loginPass").value.trim();
 
-  // You can replace with real validation later
   if (u !== "" && p !== "") {
     loginScreen.classList.add("hidden");
   }
