@@ -4,9 +4,42 @@ body {
   background: linear-gradient(to bottom right, #f7f9ff, #ffffff);
 }
 
+/* PROGRESS BAR */
+
+.top-progress {
+  position: absolute;
+  top: 20px;
+  right: 25px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.progress-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #444;
+}
+
+.progress-wrapper {
+  width: 160px;
+  height: 10px;
+  background: #e5e5e5;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: #3b73ff;
+  transition: width 0.35s ease;
+}
+
+/* MAIN CONTENT */
 .container {
   max-width: 900px;
-  margin: 40px auto;
+  margin: 80px auto 40px; /* lower to avoid overlap */
   padding: 20px;
 }
 
@@ -19,30 +52,6 @@ h1 {
 .subtitle {
   color: #555;
   margin-bottom: 20px;
-}
-
-/* Global Progress Bar */
-#globalProgressWrapper {
-  width: 100%;
-  height: 12px;
-  background: #e5e5e5;
-  border-radius: 8px;
-  margin: 20px 0 10px;
-  overflow: hidden;
-}
-
-#globalProgressBar {
-  width: 0%;
-  height: 100%;
-  background: #3b73ff;
-  border-radius: 8px;
-  transition: width 0.3s ease-in-out;
-}
-
-#globalProgressText {
-  margin-top: 6px;
-  font-size: 14px;
-  color: #555;
 }
 
 /* Filters */
@@ -182,7 +191,6 @@ h1 {
   font-size: 15px;
 }
 
-/* Equal-width Inputs, Textarea, Select */
 .modal-content input,
 .modal-content textarea,
 .modal-content select {
@@ -197,12 +205,6 @@ h1 {
 /* Date input icon fix */
 .modal-content input[type="date"] {
   padding-right: 35px;
-}
-
-/* Dropdown styling */
-.modal-content select {
-  background: #fff;
-  cursor: pointer;
 }
 
 /* Focus effect */
