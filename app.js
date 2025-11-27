@@ -18,6 +18,7 @@ function renderFilters() {
     const wrapper = document.createElement("div");
     wrapper.className = "filter-wrapper";
 
+    // Main class button
     const btn = document.createElement("button");
     btn.className = "filter-btn";
     btn.textContent = cls;
@@ -32,12 +33,11 @@ function renderFilters() {
 
     wrapper.appendChild(btn);
 
-    // Delete Class Button (except All Classes)
+    // Delete button (except All Classes)
     if (cls !== "All Classes") {
-      const delBtn = document.createElement("span");
-      delBtn.className = "delete-class";
-      delBtn.textContent = "✖";
-      delBtn.title = "Delete Class";
+      const delBtn = document.createElement("button");
+      delBtn.className = "delete-class-grey";
+      delBtn.textContent = "✕";
 
       delBtn.onclick = (e) => {
         e.stopPropagation();
@@ -50,7 +50,7 @@ function renderFilters() {
     classFilters.appendChild(wrapper);
   });
 
-  // Add Class Button
+  // Add Class button
   const addClassBtn = document.createElement("button");
   addClassBtn.className = "filter-btn";
   addClassBtn.textContent = "+ Add Class";
