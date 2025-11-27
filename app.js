@@ -65,15 +65,9 @@ function renderFilters() {
   classFilters.appendChild(addClassBtn);
 }
 
-// Delete Class — updated (no uncategorized fallback)
 function deleteClass(cls) {
   if (!confirm(`Delete class "${cls}" and ALL its tasks?`)) return;
-
-  // Remove class from class list
   classes = classes.filter(c => c !== cls);
-
-  // Remove all tasks with this class
-  tasks = tasks.filter(t => t.class !== cls);
 
   saveClasses();
   saveTasks();
