@@ -312,7 +312,7 @@ h1 {
 .task-checkbox:checked::after {
   content: "✔";
   color: white;
-  font-size: 22px;    
+  font-size: 20px;    
   font-weight: 900;   
   line-height: 1;
   position: absolute;
