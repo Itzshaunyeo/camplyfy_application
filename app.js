@@ -9,6 +9,7 @@ const classFilters = document.getElementById("classFilters");
 // Render Everything
 renderFilters();
 renderTasks("All Classes");
+updateOverallProgress();
 
 // CLASS DROPDOWN FILLER
 function populateClassDropdown(selected = "") {
@@ -25,7 +26,6 @@ function populateClassDropdown(selected = "") {
       dropdown.appendChild(opt);
     });
 
-  // If class was unassigned after deletion
   if (selected === "Unassigned") {
     const opt = document.createElement("option");
     opt.value = "Unassigned";
@@ -74,8 +74,7 @@ function renderFilters() {
     classFilters.appendChild(wrapper);
   });
 
-  // Add Class Button
-const addClassBtn = document.createElement("button");
+  const addClassBtn = document.createElement("button");
   addClassBtn.className = "filter-btn";
   addClassBtn.textContent = "+ Add Class";
   addClassBtn.onclick = () => {
@@ -89,7 +88,7 @@ const addClassBtn = document.createElement("button");
   classFilters.appendChild(addClassBtn);
 }
 
-// Delete Class — updated (no uncategorized fallback)
+// Delete Class
 function deleteClass(cls) {
   if (!confirm(`Delete class "${cls}"?`)) return;
   classes = classes.filter(c => c !== cls);
@@ -101,6 +100,7 @@ function deleteClass(cls) {
   saveTasks();
   renderFilters();
   renderTasks("All Classes");
+  updateOverallProgress();
 }
 
 // TASK RENDERER
@@ -111,6 +111,8 @@ function renderTasks(filter) {
     .filter(t => filter === "All Classes" || t.class === filter)
     .sort((a, b) => new Date(a.date) - new Date(b.date))
     .forEach(task => createTaskCard(task));
+
+  updateOverallProgress();
 }
 
 // Badge color generator
@@ -124,7 +126,7 @@ function getClassColor(cls) {
   return map[cls] || "badge-blue";
 }
 
-// Calculate Days Left
+// Days left
 function daysLeft(date) {
   const diff = Math.ceil((new Date(date) - new Date()) / (1000 * 60 * 60 * 24));
   return diff <= 0 ? "Due today" : `${diff} days left`;
@@ -139,16 +141,23 @@ function createTaskCard(task) {
     <div class="task-left">
       <h3>${task.title}</h3>
       <p>${task.desc || ""}</p>
-
       <span class="badge ${getClassColor(task.class)}">${task.class}</span>
       <span class="badge badge-blue">${daysLeft(task.date)}</span>
     </div>
 
     <div class="task-actions">
+      <input type="checkbox" class="task-checkbox" ${task.done ? "checked" : ""} />
       <button onclick="editTask(${task.id})" title="Edit">✏️</button>
       <button onclick="deleteTask(${task.id})" title="Delete">🗑️</button>
     </div>
   `;
+
+  const checkbox = card.querySelector(".task-checkbox");
+  checkbox.addEventListener("change", () => {
+    task.done = checkbox.checked;
+    saveTasks();
+    updateOverallProgress();
+  });
 
   taskList.appendChild(card);
 }
@@ -164,22 +173,18 @@ function openModal(task = null) {
 
   if (task) {
     editingTaskId = task.id;
-
     document.getElementById("modalTitle").textContent = "Edit Task";
     document.getElementById("taskTitle").value = task.title;
     document.getElementById("taskDesc").value = task.desc;
     document.getElementById("taskDate").value = task.date;
-
     populateClassDropdown(task.class);
 
   } else {
     editingTaskId = null;
-
     document.getElementById("modalTitle").textContent = "Add New Task";
     document.getElementById("taskTitle").value = "";
     document.getElementById("taskDesc").value = "";
     document.getElementById("taskDate").value = "";
-
     populateClassDropdown();
   }
 }
@@ -204,11 +209,19 @@ document.getElementById("saveTask").onclick = () => {
     t.class = cls;
     t.date = date;
   } else {
-    tasks.push({ id: Date.now(), title, desc, class: cls, date });
+    tasks.push({
+      id: Date.now(),
+      title,
+      desc,
+      class: cls,
+      date,
+      done: false
+    });
   }
 
   saveTasks();
   renderTasks("All Classes");
+  updateOverallProgress();
   closeModal();
 };
 
@@ -217,6 +230,7 @@ function deleteTask(id) {
   tasks = tasks.filter(t => t.id !== id);
   saveTasks();
   renderTasks("All Classes");
+  updateOverallProgress();
 }
 
 // STORAGE
@@ -226,4 +240,19 @@ function saveTasks() {
 
 function saveClasses() {
   localStorage.setItem("classes", JSON.stringify(classes));
+}
+
+// OVERALL PROGRESS UPDATE
+function updateOverallProgress() {
+  const fill = document.getElementById("overallProgressFill");
+  const text = document.getElementById("progressText");
+
+  if (!fill || !text) return;
+
+  const total = tasks.length;
+  const completed = tasks.filter(t => t.done).length;
+  const percent = total === 0 ? 0 : Math.round((completed / total) * 100);
+
+  fill.style.width = percent + "%";
+  text.textContent = percent + "% Completed";
 }
