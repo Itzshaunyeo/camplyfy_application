@@ -7,7 +7,14 @@ let editingTaskId = null;
 const taskList = document.getElementById("taskList");
 const classFilters = document.getElementById("classFilters");
 
+// Preset color palette
+const presetColors = ["#3b73ff", "#2ecc71", "#f39c12", "#e74c3c", "#9b59b6"];
+
 // Render Everything
+renderFilters();
+renderTasks("All Classes");
+
+// FILTER BUTTONS
 function renderFilters() {
   classFilters.innerHTML = "";
 
@@ -17,22 +24,21 @@ function renderFilters() {
     btn.style.display = "flex";
     btn.style.flexDirection = "column";
     btn.style.alignItems = "center";
-    btn.style.gap = "4px";
+    btn.style.gap = "6px";
     btn.style.padding = "6px 12px";
     btn.style.cursor = "pointer";
 
-    // Class Name
+    // Class name text
     const text = document.createElement("span");
     text.textContent = cls;
     btn.appendChild(text);
 
-    // ===== COLOR DOTS (PRESET COLORS) =====
+    // COLOR DOTS
     if (cls !== "All Classes") {
-      const colorWrapper = document.createElement("div");
-      colorWrapper.style.display = "flex";
-      colorWrapper.style.gap = "4px";
-
-      const presetColors = ["#3b73ff", "#2ecc71", "#f39c12", "#e74c3c", "#9b59b6"];
+      const dotRow = document.createElement("div");
+      dotRow.style.display = "flex";
+      dotRow.style.gap = "4px";
+      dotRow.style.marginTop = "4px";
 
       presetColors.forEach(color => {
         const dot = document.createElement("div");
@@ -50,24 +56,23 @@ function renderFilters() {
         }
 
         dot.onclick = (e) => {
-          e.stopPropagation();
+          e.stopPropagation(); // don’t trigger filter click
           classColors[cls] = color;
           saveClassColors();
-          renderFilters();
           renderTasks(getActiveFilter());
+          renderFilters(); // refresh highlighting
         };
 
-        colorWrapper.appendChild(dot);
+        dotRow.appendChild(dot);
       });
 
-      btn.appendChild(colorWrapper);
+      btn.appendChild(dotRow);
     }
 
-    // Active state
+    // Active filter logic
     if (cls === "All Classes") btn.classList.add("active");
 
     btn.onclick = (e) => {
-      if (e.target.tagName === "DIV" && e.target.style.borderRadius === "50%") return;
       document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
       renderTasks(cls);
@@ -80,26 +85,28 @@ function renderFilters() {
   const addClassBtn = document.createElement("button");
   addClassBtn.className = "filter-btn";
   addClassBtn.textContent = "+ Add Class";
+
   addClassBtn.onclick = () => {
     const newClass = prompt("Enter class name:");
     if (newClass && !classes.includes(newClass)) {
       classes.push(newClass);
-      classColors[newClass] = "#3b73ff"; // default color
+      classColors[newClass] = presetColors[0]; // default to first color
       saveClasses();
       saveClassColors();
       renderFilters();
     }
   };
+
   classFilters.appendChild(addClassBtn);
 }
 
-// Helper: get currently active filter
+// Get active filter name
 function getActiveFilter() {
-  const activeBtn = document.querySelector(".filter-btn.active");
-  return activeBtn ? activeBtn.textContent.replace("+ Add Class", "") : "All Classes";
+  const active = document.querySelector(".filter-btn.active");
+  return active ? active.textContent.replace("+ Add Class", "") : "All Classes";
 }
 
-//TASK RENDERER
+// TASK RENDERER
 function renderTasks(filter) {
   taskList.innerHTML = "";
 
@@ -109,7 +116,7 @@ function renderTasks(filter) {
     .forEach(task => createTaskCard(task));
 }
 
-//GET CLASS COLOR
+// Get class color
 function getClassColor(cls) {
   return classColors[cls] || "#3b73ff";
 }
@@ -120,7 +127,7 @@ function daysLeft(date) {
   return diff <= 0 ? "Due today" : `${diff} days left`;
 }
 
-//TASK CARD
+// TASK CARD
 function createTaskCard(task) {
   const card = document.createElement("div");
   card.className = "task-card";
@@ -145,7 +152,7 @@ function createTaskCard(task) {
   taskList.appendChild(card);
 }
 
-//TASK MODAL
+// TASK MODAL
 const modal = document.getElementById("taskModal");
 document.getElementById("addTaskBtn").onclick = () => openModal();
 document.getElementById("cancelModal").onclick = () => closeModal();
@@ -174,7 +181,7 @@ function closeModal() {
   modal.classList.add("hidden");
 }
 
-//SAVE TASK
+// SAVE TASK
 document.getElementById("saveTask").onclick = () => {
   const title = document.getElementById("taskTitle").value.trim();
   const desc = document.getElementById("taskDesc").value.trim();
@@ -183,10 +190,9 @@ document.getElementById("saveTask").onclick = () => {
 
   if (!title || !cls || !date) return alert("Please fill all fields.");
 
-  // Add Class Automatically
   if (!classes.includes(cls)) {
     classes.push(cls);
-    classColors[cls] = "#3b73ff"; // default color
+    classColors[cls] = presetColors[0];
     saveClasses();
     saveClassColors();
     renderFilters();
@@ -207,20 +213,20 @@ document.getElementById("saveTask").onclick = () => {
   closeModal();
 };
 
-//DELETE TASK
+// DELETE TASK
 function deleteTask(id) {
   tasks = tasks.filter(t => t.id !== id);
   saveTasks();
   renderTasks(getActiveFilter());
 }
 
-//EDIT TASK
+// EDIT TASK
 function editTask(id) {
   const task = tasks.find(t => t.id === id);
   if (task) openModal(task);
 }
 
-//STORAGE
+// STORAGE
 function saveTasks() {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 }
