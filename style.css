@@ -320,14 +320,14 @@ h1 {
 }
 
 
-/*---------------------------------------- DARK MODE ----------------------------------------*/
+/*---------------------------------------- Light Mode/dark Mode Switch ----------------------------------------*/
 
-/* Toggle button container */
-.dark-toggle-switch {
-  width: 45px;
-  height: 45px;
-  background: white;
-  border-radius: 50%;
+/* Toggle Switch Container */
+.theme-toggle {
+  width: 60px;
+  height: 30px;
+  background: #dcdde1;
+  border-radius: 30px;
   border: none;
 
   position: fixed;
@@ -335,36 +335,42 @@ h1 {
   right: 20px;
 
   display: flex;
-  justify-content: center;
   align-items: center;
-
-  font-size: 22px;
+  padding: 3px;
   cursor: pointer;
 
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  transition: 0.3s ease;
+  transition: background 0.3s ease;
   z-index: 9999;
 }
 
-/* Sun icon */
-.dark-toggle-switch .icon {
-  transition: 0.3s ease;
+.theme-toggle .toggle-thumb {
+  width: 24px;
+  height: 24px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 15px;
+  transition: 0.35s ease;
+  transform: translateX(0);
+  content: "☀️";
+}
+.theme-toggle .toggle-thumb::before {
+  content: "☀️";
+}
+body.dark .theme-toggle {
+  background: #2f3640;
+}
+body.dark .theme-toggle .toggle-thumb {
+  transform: translateX(30px);
+}
+body.dark .theme-toggle .toggle-thumb::before {
+  content: "🌙";
 }
 
-/* Dark mode style */
-body.dark .dark-toggle-switch {
-  background: #1f1f28;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-}
-
-/* Change sun color on dark mode */
-body.dark .dark-toggle-switch .icon {
-  color: #ffdd55;
-  text-shadow: 0 0 8px rgba(255,220,100,0.8);
-}
-
-
-
+/*---------------------------------------- DARK MODE ----------------------------------------*/
 
 body.dark {
   background: #0e0f13;
