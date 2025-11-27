@@ -159,7 +159,7 @@ h1 {
   margin-left: 8px;
 }
 
-/* Checkbox styling */
+/* Checkbox */
 .task-checkbox {
   width: 20px;
   height: 20px;
@@ -167,7 +167,7 @@ h1 {
   margin-right: 15px;
 }
 
-/* Modal */
+/* Modal Layer */
 .modal {
   position: fixed;
   top: 0;
@@ -181,8 +181,11 @@ h1 {
   padding: 20px;
 }
 
-.modal.hidden { display: none; }
+.modal.hidden {
+  display: none;
+}
 
+/* Modal Box */
 .modal-content {
   background: #fff;
   width: 400px;
@@ -192,7 +195,7 @@ h1 {
   font-family: "Inter", sans-serif;
 }
 
-/* General form font */
+/* Inputs */
 .modal-content input,
 .modal-content textarea,
 .modal-content select,
@@ -201,7 +204,6 @@ h1 {
   font-size: 15px;
 }
 
-/* Equal-width Inputs, Textarea, Select */
 .modal-content input,
 .modal-content textarea,
 .modal-content select {
@@ -213,18 +215,18 @@ h1 {
   box-sizing: border-box;
 }
 
-/* Date input icon fix */
+/* Date padding */
 .modal-content input[type="date"] {
   padding-right: 35px;
 }
 
-/* Dropdown styling */
+/* Dropdown */
 .modal-content select {
   background: #fff;
   cursor: pointer;
 }
 
-/* Focus effect */
+/* Focus Glow */
 .modal-content select:focus,
 .modal-content input:focus,
 .modal-content textarea:focus {
@@ -233,11 +235,45 @@ h1 {
   box-shadow: 0 0 0 2px rgba(59,115,255,0.2);
 }
 
-/* Modal Buttons */
+/* Modal Buttons Container */
 .modal-actions {
-  text-align: right;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 8px;
 }
 
+/* Base Modal Buttons */
+.modal-actions button {
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-size: 15px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.22s ease;
+}
+
+/* Save Button */
 .save {
   background: #3b73ff;
-  color
+  color: #fff;
+  box-shadow: 0 2px 5px rgba(59, 115, 255, 0.35);
+}
+
+.save:hover {
+  background: #2f63e6;
+  box-shadow: 0 3px 8px rgba(59, 115, 255, 0.45);
+  transform: translateY(-1px);
+}
+
+/* Cancel Button */
+.cancel {
+  background: #f1f1f5;
+  color: #333;
+  border: 1px solid #d7d9e0;
+}
+
+.cancel:hover {
+  background: #e7e7ec;
+  transform: translateY(-1px);
+}
