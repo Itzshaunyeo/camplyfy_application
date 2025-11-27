@@ -33,6 +33,20 @@ function renderFilters() {
     text.textContent = cls;
     btn.appendChild(text);
 
+    // Selected Color Preview Bubble
+    if (cls !== "All Classes") {
+      const preview = document.createElement("div");
+      preview.style.width = "16px";
+      preview.style.height = "16px";
+      preview.style.borderRadius = "50%";
+      preview.style.border = "2px solid white";
+      preview.style.boxShadow = "0 0 3px rgba(0,0,0,0.5)";
+      preview.style.background = getClassColor(cls);
+      preview.style.marginTop = "3px";
+
+      btn.appendChild(preview);
+    }
+
     // COLOR DOTS
     if (cls !== "All Classes") {
       const dotRow = document.createElement("div");
@@ -56,11 +70,11 @@ function renderFilters() {
         }
 
         dot.onclick = (e) => {
-          e.stopPropagation(); // don’t trigger filter click
+          e.stopPropagation();
           classColors[cls] = color;
           saveClassColors();
+          renderFilters();
           renderTasks(getActiveFilter());
-          renderFilters(); // refresh highlighting
         };
 
         dotRow.appendChild(dot);
@@ -72,7 +86,7 @@ function renderFilters() {
     // Active filter logic
     if (cls === "All Classes") btn.classList.add("active");
 
-    btn.onclick = (e) => {
+    btn.onclick = () => {
       document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
       renderTasks(cls);
@@ -80,9 +94,9 @@ function renderFilters() {
 
     classFilters.appendChild(btn);
   });
-
+  
   // Add Class Button
-  const addClassBtn = document.createElement("button");
+const addClassBtn = document.createElement("button");
   addClassBtn.className = "filter-btn";
   addClassBtn.textContent = "+ Add Class";
 
@@ -90,7 +104,7 @@ function renderFilters() {
     const newClass = prompt("Enter class name:");
     if (newClass && !classes.includes(newClass)) {
       classes.push(newClass);
-      classColors[newClass] = presetColors[0]; // default to first color
+      classColors[newClass] = presetColors[0]; // default color
       saveClasses();
       saveClassColors();
       renderFilters();
