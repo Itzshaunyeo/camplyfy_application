@@ -9,6 +9,7 @@ const classFilters = document.getElementById("classFilters");
 // Render Everything
 renderFilters();
 renderTasks("All Classes");
+updateGlobalProgress();
 
 // CLASS DROPDOWN FILLER
 function populateClassDropdown(selected = "") {
@@ -16,7 +17,7 @@ function populateClassDropdown(selected = "") {
   dropdown.innerHTML = "";
 
   classes
-    .filter(c => c !== "All Classes") 
+    .filter(c => c !== "All Classes")
     .forEach(cls => {
       const opt = document.createElement("option");
       opt.value = cls;
@@ -25,7 +26,6 @@ function populateClassDropdown(selected = "") {
       dropdown.appendChild(opt);
     });
 
-  // If class was unassigned after deletion
   if (selected === "Unassigned") {
     const opt = document.createElement("option");
     opt.value = "Unassigned";
@@ -75,7 +75,7 @@ function renderFilters() {
   });
 
   // Add Class Button
-const addClassBtn = document.createElement("button");
+  const addClassBtn = document.createElement("button");
   addClassBtn.className = "filter-btn";
   addClassBtn.textContent = "+ Add Class";
   addClassBtn.onclick = () => {
@@ -89,10 +89,11 @@ const addClassBtn = document.createElement("button");
   classFilters.appendChild(addClassBtn);
 }
 
-// Delete Class — updated (no uncategorized fallback)
+// Delete Class
 function deleteClass(cls) {
   if (!confirm(`Delete class "${cls}"?`)) return;
   classes = classes.filter(c => c !== cls);
+
   tasks = tasks.map(t =>
     t.class === cls ? { ...t, class: "Unassigned" } : t
   );
@@ -101,6 +102,7 @@ function deleteClass(cls) {
   saveTasks();
   renderFilters();
   renderTasks("All Classes");
+  updateGlobalProgress();
 }
 
 // TASK RENDERER
@@ -111,6 +113,8 @@ function renderTasks(filter) {
     .filter(t => filter === "All Classes" || t.class === filter)
     .sort((a, b) => new Date(a.date) - new Date(b.date))
     .forEach(task => createTaskCard(task));
+
+  updateGlobalProgress();
 }
 
 // Badge color generator
@@ -209,6 +213,7 @@ document.getElementById("saveTask").onclick = () => {
 
   saveTasks();
   renderTasks("All Classes");
+  updateGlobalProgress();
   closeModal();
 };
 
@@ -217,6 +222,7 @@ function deleteTask(id) {
   tasks = tasks.filter(t => t.id !== id);
   saveTasks();
   renderTasks("All Classes");
+  updateGlobalProgress();
 }
 
 // STORAGE
@@ -226,4 +232,17 @@ function saveTasks() {
 
 function saveClasses() {
   localStorage.setItem("classes", JSON.stringify(classes));
+}
+
+// GLOBAL PROGRESS
+function updateGlobalProgress() {
+  const total = tasks.length;
+  const completed = 0; // No completed feature yet
+  const percent = total === 0 ? 0 : Math.round((completed / total) * 100);
+
+  const bar = document.getElementById("globalProgressBar");
+  const text = document.getElementById("globalProgressText");
+
+  bar.style.width = percent + "%";
+  text.textContent = `${percent}% Complete (${completed}/${total} tasks)`;
 }
