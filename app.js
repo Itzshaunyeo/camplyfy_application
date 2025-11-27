@@ -11,6 +11,11 @@ renderFilters();
 renderTasks("All Classes");
 updateOverallProgress();
 
+// LightMode/DarkMode Toggle Button
+document.getElementById("darkToggle").addEventListener("click", () => {
+  document.body.classList.toggle("dark");
+});
+
 // CLASS DROPDOWN FILLER
 function populateClassDropdown(selected = "") {
   const dropdown = document.getElementById("taskClass");
