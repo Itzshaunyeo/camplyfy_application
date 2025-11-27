@@ -43,6 +43,27 @@ h1 {
   color: #fff;
 }
 
+/* Wrapper for filter + delete icon */
+.filter-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Delete class icon */
+.delete-class {
+  font-size: 12px;
+  color: #d33;
+  margin-left: 6px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.delete-class:hover {
+  color: #ff0000;
+  font-weight: bold;
+}
+
 /* Add Task Button */
 .add-task-btn {
   background: #3b73ff;
