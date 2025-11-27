@@ -292,7 +292,25 @@ h1 {
 }
 
 .task-checkbox {
-  width: 24px;
-  height: 24px;
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  border: 2px solid #b5b5b5;
+  border-radius: 4px;
   cursor: pointer;
+  position: relative;
+}
+
+.task-checkbox:checked {
+  background: #b5b5b5;
+  border-color: #b5b5b5;
+}
+
+.task-checkbox:checked::after {
+  content: "✔";
+  color: white;
+  font-size: 16px;
+  position: absolute;
+  left: 3px;
+  top: -1px;
 }
