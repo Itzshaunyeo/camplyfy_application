@@ -10,6 +10,31 @@ const classFilters = document.getElementById("classFilters");
 renderFilters();
 renderTasks("All Classes");
 
+// CLASS DROPDOWN FILLER
+function populateClassDropdown(selected = "") {
+  const dropdown = document.getElementById("taskClass");
+  dropdown.innerHTML = "";
+
+  classes
+    .filter(c => c !== "All Classes") 
+    .forEach(cls => {
+      const opt = document.createElement("option");
+      opt.value = cls;
+      opt.textContent = cls;
+      if (cls === selected) opt.selected = true;
+      dropdown.appendChild(opt);
+    });
+
+  // If class was unassigned after deletion
+  if (selected === "Unassigned") {
+    const opt = document.createElement("option");
+    opt.value = "Unassigned";
+    opt.textContent = "Unassigned";
+    opt.selected = true;
+    dropdown.appendChild(opt);
+  }
+}
+
 // FILTER BUTTONS
 function renderFilters() {
   classFilters.innerHTML = "";
@@ -32,7 +57,6 @@ function renderFilters() {
 
     wrapper.appendChild(btn);
 
-    // Delete Class Button (except All Classes)
     if (cls !== "All Classes") {
       const delBtn = document.createElement("span");
       delBtn.className = "delete-class";
@@ -51,7 +75,7 @@ function renderFilters() {
   });
 
   // Add Class Button
-  const addClassBtn = document.createElement("button");
+const addClassBtn = document.createElement("button");
   addClassBtn.className = "filter-btn";
   addClassBtn.textContent = "+ Add Class";
   addClassBtn.onclick = () => {
@@ -94,7 +118,8 @@ function getClassColor(cls) {
   const map = {
     "Computer Science": "badge-blue",
     "Mathematics": "badge-green",
-    "English Literature": "badge-yellow"
+    "English Literature": "badge-yellow",
+    "Unassigned": "badge-red"
   };
   return map[cls] || "badge-blue";
 }
@@ -139,18 +164,23 @@ function openModal(task = null) {
 
   if (task) {
     editingTaskId = task.id;
+
     document.getElementById("modalTitle").textContent = "Edit Task";
     document.getElementById("taskTitle").value = task.title;
     document.getElementById("taskDesc").value = task.desc;
-    document.getElementById("taskClass").value = task.class;
     document.getElementById("taskDate").value = task.date;
+
+    populateClassDropdown(task.class);
+
   } else {
     editingTaskId = null;
+
     document.getElementById("modalTitle").textContent = "Add New Task";
     document.getElementById("taskTitle").value = "";
     document.getElementById("taskDesc").value = "";
-    document.getElementById("taskClass").value = "";
     document.getElementById("taskDate").value = "";
+
+    populateClassDropdown();
   }
 }
 
@@ -166,13 +196,6 @@ document.getElementById("saveTask").onclick = () => {
   const date = document.getElementById("taskDate").value;
 
   if (!title || !cls || !date) return alert("Please fill all fields.");
-
-  // Auto-add class if new
-  if (!classes.includes(cls)) {
-    classes.push(cls);
-    saveClasses();
-    renderFilters();
-  }
 
   if (editingTaskId) {
     const t = tasks.find(t => t.id === editingTaskId);
