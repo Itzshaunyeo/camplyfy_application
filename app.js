@@ -275,3 +275,4 @@ function saveClasses() {
 function saveClassColors() {
   localStorage.setItem("classColors", JSON.stringify(classColors));
 }
+
