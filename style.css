@@ -21,6 +21,7 @@ h1 {
   margin-bottom: 20px;
 }
 
+/* Filters */
 .filters {
   display: flex;
   gap: 10px;
@@ -42,12 +43,14 @@ h1 {
   color: #fff;
 }
 
+/* Wrapper for filter + delete icon */
 .filter-wrapper {
   position: relative;
   display: inline-flex;
   align-items: center;
 }
 
+/* Delete class icon */
 .delete-class {
   background: none;
   border: none;
@@ -64,6 +67,7 @@ h1 {
   font-weight: bold;
 }
 
+/* Add Task Button */
 .add-task-btn {
   background: #3b73ff;
   color: white;
@@ -75,6 +79,7 @@ h1 {
   margin-bottom: 20px;
 }
 
+/* Task Card */
 .task-card {
   background: white;
   border-radius: 14px;
@@ -96,6 +101,7 @@ h1 {
   color: #666;
 }
 
+/* Badges */
 .badge {
   display: inline-block;
   padding: 4px 10px;
@@ -110,6 +116,7 @@ h1 {
 .badge-yellow { background: #e0a526; }
 .badge-red { background: #e44d4d; }
 
+/* Icons */
 .task-actions button {
   border: none;
   background: none;
@@ -118,6 +125,7 @@ h1 {
   margin-left: 8px;
 }
 
+/* Modal */
 .modal {
   position: fixed;
   top: 0;
@@ -142,6 +150,7 @@ h1 {
   font-family: "Inter", sans-serif;
 }
 
+/* General form font */
 .modal-content input,
 .modal-content textarea,
 .modal-content select,
@@ -150,6 +159,7 @@ h1 {
   font-size: 15px;
 }
 
+/* Equal-width Inputs, Textarea, Select */
 .modal-content input,
 .modal-content textarea,
 .modal-content select {
@@ -161,15 +171,18 @@ h1 {
   box-sizing: border-box;
 }
 
+/* Date input icon fix */
 .modal-content input[type="date"] {
   padding-right: 35px;
 }
 
+/* Dropdown styling */
 .modal-content select {
   background: #fff;
   cursor: pointer;
 }
 
+/* Focus effect */
 .modal-content select:focus,
 .modal-content input:focus,
 .modal-content textarea:focus {
@@ -178,6 +191,7 @@ h1 {
   box-shadow: 0 0 0 2px rgba(59,115,255,0.2);
 }
 
+/* Modal Buttons */
 .modal-actions {
   text-align: right;
 }
