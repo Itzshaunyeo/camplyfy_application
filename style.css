@@ -63,6 +63,7 @@ h1 {
   margin-bottom: 20px;
 }
 
+/* Filter pill */
 .filter-btn {
   background: #fff;
   padding: 8px 16px;
@@ -77,14 +78,14 @@ h1 {
   color: #fff;
 }
 
-/* Wrapper for filter + delete icon */
+/* Filter wrapper for delete button */
 .filter-wrapper {
   position: relative;
   display: inline-flex;
   align-items: center;
 }
 
-/* Delete class icon */
+/* Delete class X */
 .delete-class {
   background: none;
   border: none;
@@ -93,7 +94,6 @@ h1 {
   color: #aaa;
   margin-left: 6px;
   cursor: pointer;
-  user-select: none;
 }
 
 .delete-class:hover {
@@ -113,7 +113,7 @@ h1 {
   margin-bottom: 20px;
 }
 
-/* Task Card */
+/* Task Cards */
 .task-card {
   background: white;
   border-radius: 14px;
@@ -150,7 +150,7 @@ h1 {
 .badge-yellow { background: #e0a526; }
 .badge-red { background: #e44d4d; }
 
-/* Icons */
+/* Task Icons */
 .task-actions button {
   border: none;
   background: none;
@@ -167,7 +167,7 @@ h1 {
   margin-right: 15px;
 }
 
-/* Modal Layer */
+/* Modal Background */
 .modal {
   position: fixed;
   top: 0;
@@ -195,7 +195,7 @@ h1 {
   font-family: "Inter", sans-serif;
 }
 
-/* Inputs */
+/* Inputs, textareas, selects */
 .modal-content input,
 .modal-content textarea,
 .modal-content select,
@@ -215,18 +215,12 @@ h1 {
   box-sizing: border-box;
 }
 
-/* Date padding */
+/* Date input fix */
 .modal-content input[type="date"] {
   padding-right: 35px;
 }
 
-/* Dropdown */
-.modal-content select {
-  background: #fff;
-  cursor: pointer;
-}
-
-/* Focus Glow */
+/* Input focus outline */
 .modal-content select:focus,
 .modal-content input:focus,
 .modal-content textarea:focus {
@@ -235,45 +229,46 @@ h1 {
   box-shadow: 0 0 0 2px rgba(59,115,255,0.2);
 }
 
-/* Modal Buttons Container */
+/* Modal Button Row */
 .modal-actions {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
-  margin-top: 8px;
+  margin-top: 10px;
 }
 
-/* Base Modal Buttons */
+/* Shared button aesthetic for Save + Cancel */
 .modal-actions button {
-  padding: 10px 18px;
-  border-radius: 10px;
-  font-size: 15px;
+  padding: 10px 22px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background: #fff;
+  font-size: 14px;
   cursor: pointer;
-  border: none;
-  transition: all 0.22s ease;
+  transition: 0.2s ease;
 }
 
-/* Save Button */
-.save {
-  background: #3b73ff;
-  color: #fff;
-  box-shadow: 0 2px 5px rgba(59, 115, 255, 0.35);
+/* Hover effect */
+.modal-actions button:hover {
+  background: #f2f2f2;
 }
 
-.save:hover {
-  background: #2f63e6;
-  box-shadow: 0 3px 8px rgba(59, 115, 255, 0.45);
-  transform: translateY(-1px);
+/* Save button */
+.modal-actions .save {
+  border-color: #2a66ff;
+  color: #2a66ff;
 }
 
-/* Cancel Button */
-.cancel {
-  background: #f1f1f5;
+.modal-actions .save:hover {
+  background: #e7edff;
+}
+
+/* Cancel button */
+.modal-actions .cancel {
+  border-color: #aaa;
   color: #333;
-  border: 1px solid #d7d9e0;
 }
 
-.cancel:hover {
-  background: #e7e7ec;
-  transform: translateY(-1px);
+.modal-actions .cancel:hover {
+  background: #f5f5f5;
 }
