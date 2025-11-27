@@ -1,51 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <title>Campus Tasks</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Tracker</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-  <!-- Top Right Progress Bar -->
-  <div class="top-progress">
-    <span class="progress-title">Progress</span>
-    <div class="progress-wrapper">
-      <div class="progress-bar" id="globalProgressBar"></div>
+    <!-- TOP PROGRESS BAR -->
+    <div class="top-progress">
+        <span class="progress-title">Progress</span>
+        <div class="progress-wrapper">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
     </div>
-  </div>
 
-  <div class="container">
-    <h1>Campus Tasks</h1>
-    <p class="subtitle">Stay organized with your coursework and assignments</p>
+    <div class="container">
 
-    <!-- Filter Buttons -->
-    <div id="classFilters" class="filters"></div>
+        <h1>Task Manager</h1>
 
-    <button id="addTaskBtn" class="add-task-btn">＋ Add New Task</button>
+        <!-- Add Class -->
+        <div class="input-group">
+            <input type="text" id="newClassInput" placeholder="Enter new class">
+            <button id="addClassBtn">Add Class</button>
+        </div>
 
-    <!-- Task List -->
-    <div id="taskList"></div>
-  </div>
+        <!-- Class List -->
+        <div id="classList"></div>
 
-  <!-- Modal -->
-  <div id="taskModal" class="modal hidden">
-    <div class="modal-content">
-      <h2 id="modalTitle">Add New Task</h2>
+        <button id="addTaskBtn" class="add-task-btn">+ Add Task</button>
 
-      <input id="taskTitle" type="text" placeholder="Task Title" />
-      <textarea id="taskDesc" placeholder="Task Description"></textarea>
-
-      <select id="taskClass"></select>
-      <input id="taskDate" type="date" />
-
-      <div class="modal-actions">
-        <button id="saveTask" class="save">Save</button>
-        <button id="cancelModal" class="cancel">Cancel</button>
-      </div>
+        <!-- Task List -->
+        <div id="taskList"></div>
     </div>
-  </div>
 
-  <script src="app.js"></script>
+    <!-- Modal -->
+    <div id="taskModal" class="modal">
+        <div class="modal-content">
+            <h2>Add Task</h2>
+
+            <input type="text" id="taskTitle" placeholder="Task Title" class="modal-input">
+            <textarea id="taskDesc" placeholder="Task Description" class="modal-input"></textarea>
+
+            <select id="taskClassSelect" class="modal-input">
+                <option value="" disabled selected>Select Class</option>
+            </select>
+
+            <button id="saveTaskBtn" class="save-btn">Save Task</button>
+            <button id="cancelTaskBtn" class="cancel-btn">Cancel</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+
 </body>
 </html>
