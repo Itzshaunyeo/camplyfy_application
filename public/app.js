@@ -265,3 +265,17 @@ function updateOverallProgress() {
   fill.style.width = percent + "%";
   text.textContent = percent + "% Completed";
 }
+
+// LOGIN FUNCTIONALITY
+const loginScreen = document.getElementById("loginScreen");
+const loginBtn = document.getElementById("loginBtn");
+
+loginBtn.addEventListener("click", () => {
+  const u = document.getElementById("loginUser").value.trim();
+  const p = document.getElementById("loginPass").value.trim();
+
+  // You can replace with real validation later
+  if (u !== "" && p !== "") {
+    loginScreen.classList.add("hidden");
+  }
+});
