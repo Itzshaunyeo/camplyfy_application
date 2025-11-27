@@ -7,67 +7,81 @@ let editingTaskId = null;
 const taskList = document.getElementById("taskList");
 const classFilters = document.getElementById("classFilters");
 
-// Preset color palette
+// Preset Colors
 const presetColors = ["#3b73ff", "#2ecc71", "#f39c12", "#e74c3c", "#9b59b6"];
 
-// Render Everything
+// Initial Render
 renderFilters();
 renderTasks("All Classes");
 
-// FILTER BUTTONS
+// RENDER FILTER BUTTONS
 function renderFilters() {
   classFilters.innerHTML = "";
 
   classes.forEach(cls => {
+    const wrapper = document.createElement("div");
+    wrapper.style.display = "flex";
+    wrapper.style.flexDirection = "column";
+    wrapper.style.alignItems = "center";
+    wrapper.style.marginBottom = "8px";
+
     const btn = document.createElement("div");
     btn.className = "filter-btn";
     btn.style.display = "flex";
-    btn.style.flexDirection = "column";
     btn.style.alignItems = "center";
-    btn.style.gap = "6px";
+    btn.style.gap = "8px";
     btn.style.padding = "6px 12px";
     btn.style.cursor = "pointer";
 
     // Class name text
-    const text = document.createElement("span");
-    text.textContent = cls;
-    btn.appendChild(text);
+    const label = document.createElement("span");
+    label.textContent = cls;
+    btn.appendChild(label);
 
-    // Selected Color Preview Bubble
+    // Color preview dot (placed NEXT TO class name)
     if (cls !== "All Classes") {
-      const preview = document.createElement("div");
-      preview.style.width = "16px";
-      preview.style.height = "16px";
-      preview.style.borderRadius = "50%";
-      preview.style.border = "2px solid white";
-      preview.style.boxShadow = "0 0 3px rgba(0,0,0,0.5)";
-      preview.style.background = getClassColor(cls);
-      preview.style.marginTop = "3px";
-
-      btn.appendChild(preview);
+      const previewDot = document.createElement("div");
+      previewDot.style.width = "14px";
+      previewDot.style.height = "14px";
+      previewDot.style.borderRadius = "50%";
+      previewDot.style.background = getClassColor(cls);
+      previewDot.style.border = "2px solid white";
+      previewDot.style.boxShadow = "0 0 3px rgba(0,0,0,0.4)";
+      btn.appendChild(previewDot);
     }
 
-    // COLOR DOTS
+    // Dropdown toggle arrow
+    let arrow = null;
     if (cls !== "All Classes") {
-      const dotRow = document.createElement("div");
-      dotRow.style.display = "flex";
-      dotRow.style.gap = "4px";
-      dotRow.style.marginTop = "4px";
+      arrow = document.createElement("span");
+      arrow.textContent = "▼";
+      arrow.style.fontSize = "12px";
+      arrow.style.cursor = "pointer";
+      btn.appendChild(arrow);
+    }
 
+    // Dropdown color list (hidden by default)
+    const dropdown = document.createElement("div");
+    dropdown.style.display = "none";
+    dropdown.style.position = "absolute";
+    dropdown.style.marginTop = "30px";
+    dropdown.style.background = "white";
+    dropdown.style.padding = "6px";
+    dropdown.style.borderRadius = "10px";
+    dropdown.style.boxShadow = "0 0 5px rgba(0,0,0,0.3)";
+    dropdown.style.zIndex = "50";
+    dropdown.style.display = "flex";
+    dropdown.style.gap = "6px";
+
+    if (cls !== "All Classes") {
       presetColors.forEach(color => {
         const dot = document.createElement("div");
-        dot.style.width = "14px";
-        dot.style.height = "14px";
+        dot.style.width = "18px";
+        dot.style.height = "18px";
         dot.style.borderRadius = "50%";
         dot.style.background = color;
         dot.style.cursor = "pointer";
-        dot.style.border = "2px solid white";
-        dot.style.boxShadow = "0 0 2px rgba(0,0,0,0.4)";
-
-        // Highlight selected color
-        if (classColors[cls] === color) {
-          dot.style.outline = "2px solid black";
-        }
+        dot.style.border = classColors[cls] === color ? "3px solid black" : "2px solid white";
 
         dot.onclick = (e) => {
           e.stopPropagation();
@@ -77,26 +91,34 @@ function renderFilters() {
           renderTasks(getActiveFilter());
         };
 
-        dotRow.appendChild(dot);
+        dropdown.appendChild(dot);
       });
-
-      btn.appendChild(dotRow);
     }
 
-    // Active filter logic
-    if (cls === "All Classes") btn.classList.add("active");
+    // Dropdown toggle logic
+    if (arrow) {
+      arrow.onclick = (e) => {
+        e.stopPropagation();
+        dropdown.style.display = dropdown.style.display === "flex" ? "none" : "flex";
+      };
+    }
 
-    btn.onclick = () => {
+    // Filter click
+    btn.onclick = (e) => {
+      if (e.target === arrow) return;
+
       document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
       renderTasks(cls);
     };
 
-    classFilters.appendChild(btn);
+    wrapper.appendChild(btn);
+    wrapper.appendChild(dropdown);
+    classFilters.appendChild(wrapper);
   });
-  
+
   // Add Class Button
-const addClassBtn = document.createElement("button");
+  const addClassBtn = document.createElement("button");
   addClassBtn.className = "filter-btn";
   addClassBtn.textContent = "+ Add Class";
 
@@ -104,7 +126,7 @@ const addClassBtn = document.createElement("button");
     const newClass = prompt("Enter class name:");
     if (newClass && !classes.includes(newClass)) {
       classes.push(newClass);
-      classColors[newClass] = presetColors[0]; // default color
+      classColors[newClass] = presetColors[0];
       saveClasses();
       saveClassColors();
       renderFilters();
@@ -114,13 +136,14 @@ const addClassBtn = document.createElement("button");
   classFilters.appendChild(addClassBtn);
 }
 
-// Get active filter name
+// Get Active Filter
 function getActiveFilter() {
   const active = document.querySelector(".filter-btn.active");
-  return active ? active.textContent.replace("+ Add Class", "") : "All Classes";
+  if (!active) return "All Classes";
+  return active.textContent.replace("▼", "").trim();
 }
 
-// TASK RENDERER
+// Render Tasks
 function renderTasks(filter) {
   taskList.innerHTML = "";
 
@@ -130,18 +153,16 @@ function renderTasks(filter) {
     .forEach(task => createTaskCard(task));
 }
 
-// Get class color
 function getClassColor(cls) {
   return classColors[cls] || "#3b73ff";
 }
 
-// Calculate Days Left
 function daysLeft(date) {
   const diff = Math.ceil((new Date(date) - new Date()) / (1000 * 60 * 60 * 24));
   return diff <= 0 ? "Due today" : `${diff} days left`;
 }
 
-// TASK CARD
+// Create Task Card
 function createTaskCard(task) {
   const card = document.createElement("div");
   card.className = "task-card";
@@ -158,15 +179,15 @@ function createTaskCard(task) {
     </div>
 
     <div class="task-actions">
-      <button onclick="editTask(${task.id})" title="Edit">✏️</button>
-      <button onclick="deleteTask(${task.id})" title="Delete">🗑️</button>
+      <button onclick="editTask(${task.id})">✏️</button>
+      <button onclick="deleteTask(${task.id})">🗑️</button>
     </div>
   `;
 
   taskList.appendChild(card);
 }
 
-// TASK MODAL
+// Modal
 const modal = document.getElementById("taskModal");
 document.getElementById("addTaskBtn").onclick = () => openModal();
 document.getElementById("cancelModal").onclick = () => closeModal();
@@ -195,7 +216,7 @@ function closeModal() {
   modal.classList.add("hidden");
 }
 
-// SAVE TASK
+// Save Task
 document.getElementById("saveTask").onclick = () => {
   const title = document.getElementById("taskTitle").value.trim();
   const desc = document.getElementById("taskDesc").value.trim();
@@ -227,20 +248,20 @@ document.getElementById("saveTask").onclick = () => {
   closeModal();
 };
 
-// DELETE TASK
+// Delete
 function deleteTask(id) {
   tasks = tasks.filter(t => t.id !== id);
   saveTasks();
   renderTasks(getActiveFilter());
 }
 
-// EDIT TASK
+// Edit
 function editTask(id) {
   const task = tasks.find(t => t.id === id);
   if (task) openModal(task);
 }
 
-// STORAGE
+// Storage
 function saveTasks() {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 }
