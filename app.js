@@ -8,10 +8,6 @@ const taskList = document.getElementById("taskList");
 const classFilters = document.getElementById("classFilters");
 
 // Render Everything
-renderFilters();
-renderTasks("All Classes");
-
-//FILTER BUTTONS
 function renderFilters() {
   classFilters.innerHTML = "";
 
@@ -19,40 +15,59 @@ function renderFilters() {
     const btn = document.createElement("div");
     btn.className = "filter-btn";
     btn.style.display = "flex";
+    btn.style.flexDirection = "column";
     btn.style.alignItems = "center";
-    btn.style.gap = "6px";
+    btn.style.gap = "4px";
     btn.style.padding = "6px 12px";
     btn.style.cursor = "pointer";
 
-    // Class name text
+    // Class Name
     const text = document.createElement("span");
     text.textContent = cls;
     btn.appendChild(text);
 
-    // Inline color picker for user-selected classes
+    // ===== COLOR DOTS (PRESET COLORS) =====
     if (cls !== "All Classes") {
-      const colorInput = document.createElement("input");
-      colorInput.type = "color";
-      colorInput.value = classColors[cls] || "#3b73ff";
-      colorInput.title = "Pick badge color";
-      colorInput.style.width = "20px";
-      colorInput.style.height = "20px";
-      colorInput.style.border = "none";
-      colorInput.style.padding = "0";
-      colorInput.style.cursor = "pointer";
+      const colorWrapper = document.createElement("div");
+      colorWrapper.style.display = "flex";
+      colorWrapper.style.gap = "4px";
 
-      colorInput.onchange = (e) => {
-        classColors[cls] = e.target.value;
-        saveClassColors();
-        renderTasks(getActiveFilter());
-      };
-      btn.appendChild(colorInput);
+      const presetColors = ["#3b73ff", "#2ecc71", "#f39c12", "#e74c3c", "#9b59b6"];
+
+      presetColors.forEach(color => {
+        const dot = document.createElement("div");
+        dot.style.width = "14px";
+        dot.style.height = "14px";
+        dot.style.borderRadius = "50%";
+        dot.style.background = color;
+        dot.style.cursor = "pointer";
+        dot.style.border = "2px solid white";
+        dot.style.boxShadow = "0 0 2px rgba(0,0,0,0.4)";
+
+        // Highlight selected color
+        if (classColors[cls] === color) {
+          dot.style.outline = "2px solid black";
+        }
+
+        dot.onclick = (e) => {
+          e.stopPropagation();
+          classColors[cls] = color;
+          saveClassColors();
+          renderFilters();
+          renderTasks(getActiveFilter());
+        };
+
+        colorWrapper.appendChild(dot);
+      });
+
+      btn.appendChild(colorWrapper);
     }
 
-    // Active filter logic
+    // Active state
     if (cls === "All Classes") btn.classList.add("active");
+
     btn.onclick = (e) => {
-      if (e.target.tagName === "INPUT") return; // ignore clicks on color picker
+      if (e.target.tagName === "DIV" && e.target.style.borderRadius === "50%") return;
       document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
       renderTasks(cls);
@@ -68,9 +83,8 @@ function renderFilters() {
   addClassBtn.onclick = () => {
     const newClass = prompt("Enter class name:");
     if (newClass && !classes.includes(newClass)) {
-      const color = prompt("Pick a color for this class (hex code, e.g., #3b73ff):", "#3b73ff") || "#3b73ff";
       classes.push(newClass);
-      classColors[newClass] = color;
+      classColors[newClass] = "#3b73ff"; // default color
       saveClasses();
       saveClassColors();
       renderFilters();
