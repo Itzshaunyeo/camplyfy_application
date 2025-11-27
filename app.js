@@ -67,8 +67,11 @@ function renderFilters() {
 
 // Delete Class — updated (no uncategorized fallback)
 function deleteClass(cls) {
-  if (!confirm(`Delete class "${cls}" and ALL its tasks?`)) return;
+  if (!confirm(`Delete class "${cls}"?`)) return;
   classes = classes.filter(c => c !== cls);
+  tasks = tasks.map(t =>
+    t.class === cls ? { ...t, class: "Unassigned" } : t
+  );
 
   saveClasses();
   saveTasks();
