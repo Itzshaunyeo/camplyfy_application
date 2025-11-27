@@ -16,124 +16,104 @@ renderTasks("All Classes");
 
 // RENDER FILTER BUTTONS
 function renderFilters() {
+  const classFilters = document.getElementById("classFilters");
   classFilters.innerHTML = "";
 
+  // "All Classes" button
+  const allBtn = document.createElement("button");
+  allBtn.classList.add("filter-btn");
+  allBtn.textContent = "All Classes";
+
+  if (getActiveFilter() === "All Classes") allBtn.classList.add("active");
+
+  allBtn.onclick = () => {
+    document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+    allBtn.classList.add("active");
+    renderTasks("All Classes");
+  };
+
+  classFilters.appendChild(allBtn);
+
+  // Create buttons for each class
   classes.forEach(cls => {
-    const wrapper = document.createElement("div");
-    wrapper.style.display = "flex";
-    wrapper.style.flexDirection = "column";
-    wrapper.style.alignItems = "center";
-    wrapper.style.marginBottom = "8px";
+    const btn = document.createElement("button");
+    btn.classList.add("filter-btn");
+    btn.textContent = cls;
 
-    const btn = document.createElement("div");
-    btn.className = "filter-btn";
-    btn.style.display = "flex";
-    btn.style.alignItems = "center";
-    btn.style.gap = "8px";
-    btn.style.padding = "6px 12px";
-    btn.style.cursor = "pointer";
+    if (getActiveFilter() === cls) btn.classList.add("active");
 
-    // Class name text
-    const label = document.createElement("span");
-    label.textContent = cls;
-    btn.appendChild(label);
-
-    // Color preview dot (placed NEXT TO class name)
-    if (cls !== "All Classes") {
-      const previewDot = document.createElement("div");
-      previewDot.style.width = "14px";
-      previewDot.style.height = "14px";
-      previewDot.style.borderRadius = "50%";
-      previewDot.style.background = getClassColor(cls);
-      previewDot.style.border = "2px solid white";
-      previewDot.style.boxShadow = "0 0 3px rgba(0,0,0,0.4)";
-      btn.appendChild(previewDot);
-    }
-
-    // Dropdown toggle arrow
-    let arrow = null;
-    if (cls !== "All Classes") {
-      arrow = document.createElement("span");
-      arrow.textContent = "▼";
-      arrow.style.fontSize = "12px";
-      arrow.style.cursor = "pointer";
-      btn.appendChild(arrow);
-    }
-
-    // Dropdown color list (hidden by default)
-    const dropdown = document.createElement("div");
-    dropdown.style.display = "none";
-    dropdown.style.position = "absolute";
-    dropdown.style.marginTop = "30px";
-    dropdown.style.background = "white";
-    dropdown.style.padding = "6px";
-    dropdown.style.borderRadius = "10px";
-    dropdown.style.boxShadow = "0 0 5px rgba(0,0,0,0.3)";
-    dropdown.style.zIndex = "50";
-    dropdown.style.display = "flex";
-    dropdown.style.gap = "6px";
-
-    if (cls !== "All Classes") {
-      presetColors.forEach(color => {
-        const dot = document.createElement("div");
-        dot.style.width = "18px";
-        dot.style.height = "18px";
-        dot.style.borderRadius = "50%";
-        dot.style.background = color;
-        dot.style.cursor = "pointer";
-        dot.style.border = classColors[cls] === color ? "3px solid black" : "2px solid white";
-
-        dot.onclick = (e) => {
-          e.stopPropagation();
-          classColors[cls] = color;
-          saveClassColors();
-          renderFilters();
-          renderTasks(getActiveFilter());
-        };
-
-        dropdown.appendChild(dot);
-      });
-    }
-
-    // Dropdown toggle logic
-    if (arrow) {
-      arrow.onclick = (e) => {
-        e.stopPropagation();
-        dropdown.style.display = dropdown.style.display === "flex" ? "none" : "flex";
-      };
-    }
-
-    // Filter click
-    btn.onclick = (e) => {
-      if (e.target === arrow) return;
-
+    btn.onclick = () => {
       document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
       renderTasks(cls);
     };
 
-    wrapper.appendChild(btn);
-    wrapper.appendChild(dropdown);
-    classFilters.appendChild(wrapper);
+    // Selected color bubble (dropdown trigger)
+    const colorTrigger = document.createElement("div");
+    colorTrigger.style.width = "14px";
+    colorTrigger.style.height = "14px";
+    colorTrigger.style.borderRadius = "50%";
+    colorTrigger.style.marginLeft = "8px";
+    colorTrigger.style.border = "2px solid white";
+    colorTrigger.style.boxShadow = "0 0 2px rgba(0,0,0,0.4)";
+    colorTrigger.style.background = getClassColor(cls);
+    colorTrigger.style.cursor = "pointer";
+    colorTrigger.style.position = "relative";
+
+    // Dropdown menu
+    const dropdown = document.createElement("div");
+    dropdown.style.position = "absolute";
+    dropdown.style.top = "20px";
+    dropdown.style.left = "0";
+    dropdown.style.padding = "6px";
+    dropdown.style.background = "#fff";
+    dropdown.style.border = "1px solid #ccc";
+    dropdown.style.borderRadius = "6px";
+    dropdown.style.display = "none";
+    dropdown.style.flexDirection = "row";
+    dropdown.style.gap = "5px";
+    dropdown.style.zIndex = "1000";
+
+    // Add preset color dots into dropdown
+    presetColors.forEach(color => {
+      const dot = document.createElement("div");
+      dot.style.width = "16px";
+      dot.style.height = "16px";
+      dot.style.borderRadius = "50%";
+      dot.style.background = color;
+      dot.style.cursor = "pointer";
+      dot.style.border = "2px solid white";
+      dot.style.boxShadow = "0 0 2px rgba(0,0,0,0.4)";
+
+      dot.onclick = (e) => {
+        e.stopPropagation(); // do not close dropdown
+        classColors[cls] = color;
+        saveClasses();
+        renderFilters();
+        renderTasks(getActiveFilter());
+      };
+
+      dropdown.appendChild(dot);
+    });
+
+    // Toggle dropdown on click
+    colorTrigger.onclick = (e) => {
+      e.stopPropagation();
+      dropdown.style.display = dropdown.style.display === "none" ? "flex" : "none";
+    };
+
+    // Close dropdown on outside click
+    document.addEventListener("click", () => {
+      dropdown.style.display = "none";
+    });
+
+    // Add dropdown into trigger
+    colorTrigger.appendChild(dropdown);
+
+    // Add trigger next to class name
+    btn.appendChild(colorTrigger);
+    classFilters.appendChild(btn);
   });
-
-  // Add Class Button
-  const addClassBtn = document.createElement("button");
-  addClassBtn.className = "filter-btn";
-  addClassBtn.textContent = "+ Add Class";
-
-  addClassBtn.onclick = () => {
-    const newClass = prompt("Enter class name:");
-    if (newClass && !classes.includes(newClass)) {
-      classes.push(newClass);
-      classColors[newClass] = presetColors[0];
-      saveClasses();
-      saveClassColors();
-      renderFilters();
-    }
-  };
-
-  classFilters.appendChild(addClassBtn);
 }
 
 // Get Active Filter
