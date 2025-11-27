@@ -18,7 +18,6 @@ function renderFilters() {
     const wrapper = document.createElement("div");
     wrapper.className = "filter-wrapper";
 
-    // Main class button
     const btn = document.createElement("button");
     btn.className = "filter-btn";
     btn.textContent = cls;
@@ -33,11 +32,12 @@ function renderFilters() {
 
     wrapper.appendChild(btn);
 
-    // Delete button (except All Classes)
+    // Delete Class Button (except All Classes)
     if (cls !== "All Classes") {
-      const delBtn = document.createElement("button");
-      delBtn.className = "delete-class-grey";
-      delBtn.textContent = "✕";
+      const delBtn = document.createElement("span");
+      delBtn.className = "delete-class";
+      delBtn.textContent = "✖";
+      delBtn.title = "Delete Class";
 
       delBtn.onclick = (e) => {
         e.stopPropagation();
@@ -50,7 +50,7 @@ function renderFilters() {
     classFilters.appendChild(wrapper);
   });
 
-  // Add Class button
+  // Add Class Button
   const addClassBtn = document.createElement("button");
   addClassBtn.className = "filter-btn";
   addClassBtn.textContent = "+ Add Class";
@@ -65,9 +65,15 @@ function renderFilters() {
   classFilters.appendChild(addClassBtn);
 }
 
+// Delete Class — updated (no uncategorized fallback)
 function deleteClass(cls) {
   if (!confirm(`Delete class "${cls}" and ALL its tasks?`)) return;
+
+  // Remove class from class list
   classes = classes.filter(c => c !== cls);
+
+  // Remove all tasks with this class
+  tasks = tasks.filter(t => t.class !== cls);
 
   saveClasses();
   saveTasks();
@@ -200,4 +206,3 @@ function saveTasks() {
 function saveClasses() {
   localStorage.setItem("classes", JSON.stringify(classes));
 }
-
