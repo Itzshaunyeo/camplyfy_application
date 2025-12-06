@@ -265,3 +265,10 @@ function updateOverallProgress() {
   fill.style.width = percent + "%";
   text.textContent = percent + "% Completed";
 }
+
+// LOGOUT FUNCTION
+document.getElementById("logoutBtn").addEventListener("click", () => {
+  localStorage.removeItem("loggedIn");
+  window.location.href = "login.html";
+});
+
