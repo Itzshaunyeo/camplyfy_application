@@ -4,23 +4,25 @@
   <meta charset="utf-8" />
   <title>Campus Tasks</title>
   <link rel="stylesheet" href="style.css" />
-</head>
-<body>
 
+  <!-- Redirect BEFORE page loads -->
   <script>
-  if (localStorage.getItem("loggedIn") !== "true") {
-    window.location.href = "login.html";
-  }
-</script>
+    if (localStorage.getItem("loggedIn") !== "true") {
+      window.location.href = "login.html";
+    }
+  </script>
+</head>
+
+<body>
 
   <div class="container">
     <h1>Campus Tasks</h1>
     <p class="subtitle">Stay organized with your coursework and assignments</p>
 
-        <!-- LIGHT MODE/DARK MODE TOGGLE BUTTON -->
+    <!-- LIGHT MODE/DARK MODE TOGGLE BUTTON -->
     <button id="darkToggle" class="theme-toggle">
-       <span class="toggle-thumb"></span>
-    </button
+      <span class="toggle-thumb"></span>
+    </button>
 
     <!-- Overall Progress Bar -->
     <div class="overall-progress-wrapper">
