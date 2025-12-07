@@ -11,6 +11,7 @@ renderFilters();
 renderTasks("All Classes");
 updateOverallProgress();
 checkDueSoonTasks();
+renderCalendar();
 
 // Load saved theme on startup
 if (localStorage.getItem("theme") === "dark") {
@@ -119,6 +120,7 @@ function deleteClass(cls) {
   renderFilters();
   renderTasks("All Classes");
   updateOverallProgress();
+  renderCalendar();
 }
 
 // TASK RENDERER
@@ -244,6 +246,7 @@ document.getElementById("saveTask").onclick = () => {
   saveTasks();
   renderTasks("All Classes");
   updateOverallProgress();
+  renderCalendar();
   closeModal();
 };
 
@@ -253,6 +256,7 @@ function deleteTask(id) {
   saveTasks();
   renderTasks("All Classes");
   updateOverallProgress();
+  renderCalendar();
 }
 
 // STORAGE
