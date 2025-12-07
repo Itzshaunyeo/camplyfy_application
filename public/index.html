@@ -15,93 +15,72 @@
 
 <body>
 
-<div class="main-layout">
+  <div class="container">
+    <h1>Campus Tasks</h1>
+    <p class="subtitle">Stay organized with your coursework and assignments</p>
 
-  <!-- LEFT SIDE: TASKS -->
-  <div class="left-panel">
+    <!-- LIGHT MODE/DARK MODE TOGGLE BUTTON -->
+    <button id="darkToggle" class="theme-toggle">
+      <span class="toggle-thumb"></span>
+    </button>
 
-    <div class="container">
-      <h1>Campus Tasks</h1>
-      <p class="subtitle">Stay organized with your coursework and assignments</p>
+    <!-- PROFILE ICON -->
+  <div class="profile-menu">
+    <img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" 
+         alt="profile" 
+         class="profile-icon" 
+         id="profileIcon">
 
-      <!-- Light/Dark mode toggle -->
-      <button id="darkToggle" class="theme-toggle">
-        <span class="toggle-thumb"></span>
-      </button>
+    <div class="profile-dropdown" id="profileDropdown">
+      <button id="logoutBtn">Log Out</button>
+    </div>
+  </div>
 
-      <!-- PROFILE ICON -->
-      <div class="profile-menu">
-        <div class="profile-border">
-          <img
-            src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png"
-            alt="profile"
-            class="profile-icon"
-            id="profileIcon"
-          >
-        </div>
+    <!-- Overall Progress Bar -->
+    <div class="overall-progress-wrapper">
+      <div class="progress-header">Overall Progress</div>
 
-        <div class="profile-dropdown" id="profileDropdown">
-          <button id="logoutBtn">Log Out</button>
-        </div>
+      <div class="progress-bar-background">
+        <div id="overallProgressFill" class="progress-bar-fill"></div>
       </div>
 
-      <!-- Overall Progress Bar -->
-      <div class="overall-progress-wrapper">
-        <div class="progress-header">Overall Progress</div>
+      <div id="progressText" class="progress-percent">0% Completed</div>
+    </div>
 
-        <div class="progress-bar-background">
-          <div id="overallProgressFill" class="progress-bar-fill"></div>
-        </div>
+    <!-- Filter Buttons -->
+    <div id="classFilters" class="filters"></div>
 
-        <div id="progressText" class="progress-percent">0% Completed</div>
+    <button id="addTaskBtn" class="add-task-btn">＋ Add New Task</button>
+
+    <!-- Task List -->
+    <div id="taskList"></div>
+  </div>
+
+  <!-- Modal -->
+  <div id="taskModal" class="modal hidden">
+    <div class="modal-content">
+      <h2 id="modalTitle">Add New Task</h2>
+
+      <input id="taskTitle" type="text" placeholder="Task Title" />
+      <textarea id="taskDesc" placeholder="Task Description"></textarea>
+
+      <select id="taskClass"></select>
+      <input id="taskDate" type="date" />
+
+      <div class="modal-actions">
+        <button id="saveTask" class="modal-btn save">Save</button>
+        <button id="cancelModal" class="modal-btn cancel">Cancel</button>
       </div>
-
-      <!-- Filter Buttons -->
-      <div id="classFilters" class="filters"></div>
-
-      <button id="addTaskBtn" class="add-task-btn">＋ Add New Task</button>
-
-      <!-- Task List -->
-      <div id="taskList"></div>
     </div>
-
   </div>
 
-  <!-- VERTICAL DIVIDER -->
-  <div class="vertical-divider"></div>
-
-  <!-- RIGHT SIDE: CALENDAR -->
-  <div class="right-panel">
-
-    <div class="calendar-section">
-      <h2 class="page-title timeline-title">Task Timeline</h2>
-      <div id="taskCalendar" class="calendar"></div>
-    </div>
-
-  </div>
-
+  <!-- TASK CALENDAR -->
+<div class="calendar-section">
+  <h2 class="page-title">Task Timeline</h2>
+  <div id="taskCalendar" class="calendar"></div>
 </div>
 
-
-<!-- Modal -->
-<div id="taskModal" class="modal hidden">
-  <div class="modal-content">
-    <h2 id="modalTitle">Add New Task</h2>
-
-    <input id="taskTitle" type="text" placeholder="Task Title" />
-    <textarea id="taskDesc" placeholder="Task Description"></textarea>
-
-    <select id="taskClass"></select>
-    <input id="taskDate" type="date" />
-
-    <div class="modal-actions">
-      <button id="saveTask" class="modal-btn save">Save</button>
-      <button id="cancelModal" class="modal-btn cancel">Cancel</button>
-    </div>
-  </div>
-</div>
-
-<script src="app.js"></script>
+  <script src="app.js"></script>
 
 </body>
 </html>
