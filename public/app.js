@@ -11,9 +11,21 @@ renderFilters();
 renderTasks("All Classes");
 updateOverallProgress();
 
+// Load saved theme on startup
+if (localStorage.getItem("theme") === "dark") {
+  document.body.classList.add("dark");
+}
+
 // LightMode/DarkMode Toggle Button
 document.getElementById("darkToggle").addEventListener("click", () => {
   document.body.classList.toggle("dark");
+
+  // Save theme
+  if (document.body.classList.contains("dark")) {
+    localStorage.setItem("theme", "dark");
+  } else {
+    localStorage.setItem("theme", "light");
+  }
 });
 
 // CLASS DROPDOWN FILLER
