@@ -290,13 +290,19 @@ profileIcon.addEventListener("click", () => {
 
 // Close dropdown on outside click
 document.addEventListener("click", (e) => {
-  if (!profileIcon.contains(e.target) && !profileDropdown.contains(e.target)) {
+  if (
+    !profileIcon.contains(e.target) &&
+    !profileDropdown.contains(e.target)
+  ) {
     profileDropdown.style.display = "none";
   }
 });
 
 // LOGOUT FUNCTION
-document.getElementById("logoutBtn").addEventListener("click", () => {
+const logoutBtn = document.getElementById("logoutBtn");
+
+logoutBtn.addEventListener("click", (e) => {
+  e.stopPropagation(); 
   localStorage.removeItem("loggedIn");
   window.location.href = "login.html";
 });
