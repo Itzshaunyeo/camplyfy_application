@@ -623,6 +623,11 @@ body.dark .profile-icon {
   text-align: center;
   margin-bottom: 10px;
   margin-top: 40px;
+
+  border: 3px solid #3b73ff;
+  padding: 10px 20px;
+  border-radius: 12px;
+  display: inline-block;
 }
 
 /* Dark Mode */
@@ -640,6 +645,7 @@ body.dark .calendar-task {
 
 body.dark .page-title {
   color: white;
+  border-color: #5c8bff;
 }
 
 
