@@ -590,6 +590,9 @@ body.dark .profile-icon {
   background: white;
   padding: 15px;
   border-radius: 14px;
+
+  max-width: 760px;  
+  margin: 0 auto;   
 }
 
 .calendar-day {
