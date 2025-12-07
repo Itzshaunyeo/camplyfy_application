@@ -319,29 +319,6 @@ h1 {
   top: -1px;
 }
 
-/* Logout Button */
-.logout-btn {
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  background: #ff4d4d;
-  color: white;
-  border: none;
-  padding: 10px 18px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 600;
-  z-index: 9999;
-  transition: 0.2s;
-}
-
-.logout-btn:hover {
-  background: #cc3b3b;
-}
-
-
-
 /*---------------------------------------- Light Mode/dark Mode Switch ----------------------------------------*/
 
 /* Toggle Switch Container */
@@ -523,7 +500,7 @@ body.dark .logout-btn:hover {
 .profile-menu {
   position: fixed;
   top: 20px;
-  right: 20px;
+  right: 80px;
   z-index: 9999;
 }
 
