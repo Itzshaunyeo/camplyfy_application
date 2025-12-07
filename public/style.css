@@ -577,3 +577,53 @@ body.dark .profile-icon {
 }
 
 
+/* -------------------- CALENDER -------------------- */
+
+.calendar-section {
+  margin-top: 50px;
+}
+
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  background: white;
+  padding: 15px;
+  border-radius: 14px;
+}
+
+.calendar-day {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  min-height: 80px;
+  padding: 6px;
+  font-size: 12px;
+}
+
+.calendar-day header {
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.calendar-task {
+  background: #3b73ff;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-size: 11px;
+  margin-bottom: 3px;
+}
+
+/* Dark Mode */
+body.dark .calendar {
+  background: #1b1c22;
+}
+
+body.dark .calendar-day {
+  border-color: #333;
+}
+
+body.dark .calendar-task {
+  background: #5c8bff;
+}
+
