@@ -311,24 +311,38 @@ logoutBtn.addEventListener("click", (e) => {
 const NOTIFY_DAYS = [3, 1];
 
 function checkDueSoonTasks() {
+  const popup = document.getElementById("duePopup");
+  const msg = document.getElementById("dueMessage");
+  const closeBtn = document.getElementById("closeDuePopup");
+
   const now = new Date();
+  let shown = false;
 
   tasks.forEach(task => {
-    if (task.done) return; 
+    if (task.done || !task.date) return;
 
     const dueDate = new Date(task.date);
     const diffDays = Math.ceil((dueDate - now) / (1000 * 60 * 60 * 24));
 
-    // 1 day before
     if (diffDays === 1) {
-      alert(`⚠️ Task due tomorrow:\n"${task.title}"`);
+      msg.textContent = `"${task.title}" is due tomorrow.`;
+      popup.classList.remove("hidden");
+      shown = true;
     }
 
-    // Same day
     if (diffDays === 0) {
-      alert(`⏰ Task due today:\n"${task.title}"`);
+      msg.textContent = `"${task.title}" is due today!`;
+      popup.classList.remove("hidden");
+      shown = true;
     }
   });
+
+  if (shown) {
+    closeBtn.onclick = () => {
+      popup.classList.add("hidden");
+    };
+  }
 }
+
 
 
