@@ -557,13 +557,22 @@ body.dark .profile-dropdown button:hover {
   background: rgba(255,255,255,0.1);
 }
 
-/* Light mode icon */
-#profileIcon img {
-  filter: none;
-  transition: 0.2s ease;
+/* Borderprofile icon */
+.profile-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 2px solid #333;  
+  /* light mode border */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  transition: 0.3s ease;
 }
 
-/* Dark mode icon */
-body.dark #profileIcon img {
-  filter: brightness(200%) invert(100%);
+/* Dark mode border */
+body.dark .profile-icon {
+  border-color: #ffffff;
 }
+
