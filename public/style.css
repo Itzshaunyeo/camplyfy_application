@@ -500,7 +500,7 @@ body.dark .logout-btn:hover {
 .profile-menu {
   position: fixed;
   top: 20px;
-  right: 80px;
+  left: 20px; 
   z-index: 9999;
 }
 
