@@ -10,6 +10,7 @@ const classFilters = document.getElementById("classFilters");
 renderFilters();
 renderTasks("All Classes");
 updateOverallProgress();
+checkDueSoonTasks();
 
 // Load saved theme on startup
 if (localStorage.getItem("theme") === "dark") {
@@ -299,4 +300,34 @@ document.getElementById("logoutBtn").addEventListener("click", () => {
   localStorage.removeItem("loggedIn");
   window.location.href = "login.html";
 });
+
+// DUE SOON NOTIFICATION SYSTEM
+const NOTIFY_DAYS = [3, 1];
+
+function checkDueSoonTasks() {
+  const today = new Date();
+
+  tasks.forEach(task => {
+    if (!task.date || task.done) return;
+
+    const dueDate = new Date(task.date);
+    const diffDays = Math.ceil((dueDate - today) / (1000 * 60 * 60 * 24));
+
+    if (NOTIFY_DAYS.includes(diffDays)) {
+      showNotification(task.title, diffDays);
+    }
+  });
+}
+
+function showNotification(title, days) {
+  if (Notification.permission === "granted") {
+    new Notification("Task Reminder", {
+      body:
+        days === 1
+          ? `"${title}" is due TOMORROW!`
+          : `"${title}" is due in ${days} days!`,
+      icon: "https://cdn-icons-png.flaticon.com/512/1827/1827370.png"
+    });
+  }
+}
 
