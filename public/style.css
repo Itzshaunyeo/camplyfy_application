@@ -553,7 +553,17 @@ body.dark .profile-dropdown {
   background: rgba(0,0,0,0.05);
 }
 
-/* Dark mode hover fix */
 body.dark .profile-dropdown button:hover {
   background: rgba(255,255,255,0.1);
+}
+
+/* Light mode icon */
+#profileIcon img {
+  filter: none;
+  transition: 0.2s ease;
+}
+
+/* Dark mode icon */
+body.dark #profileIcon img {
+  filter: brightness(200%) invert(100%);
 }
