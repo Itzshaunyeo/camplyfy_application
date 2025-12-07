@@ -311,29 +311,24 @@ logoutBtn.addEventListener("click", (e) => {
 const NOTIFY_DAYS = [3, 1];
 
 function checkDueSoonTasks() {
-  const today = new Date();
+  const now = new Date();
 
   tasks.forEach(task => {
-    if (!task.date || task.done) return;
+    if (task.done) return; 
 
     const dueDate = new Date(task.date);
-    const diffDays = Math.ceil((dueDate - today) / (1000 * 60 * 60 * 24));
+    const diffDays = Math.ceil((dueDate - now) / (1000 * 60 * 60 * 24));
 
-    if (NOTIFY_DAYS.includes(diffDays)) {
-      showNotification(task.title, diffDays);
+    // 1 day before
+    if (diffDays === 1) {
+      alert(`⚠️ Task due tomorrow:\n"${task.title}"`);
+    }
+
+    // Same day
+    if (diffDays === 0) {
+      alert(`⏰ Task due today:\n"${task.title}"`);
     }
   });
 }
 
-function showNotification(title, days) {
-  if (Notification.permission === "granted") {
-    new Notification("Task Reminder", {
-      body:
-        days === 1
-          ? `"${title}" is due TOMORROW!`
-          : `"${title}" is due in ${days} days!`,
-      icon: "https://cdn-icons-png.flaticon.com/512/1827/1827370.png"
-    });
-  }
-}
 
