@@ -279,6 +279,55 @@ function updateOverallProgress() {
   text.textContent = percent + "% Completed";
 }
 
+function renderCalendar() {
+  const calendar = document.getElementById("taskCalendar");
+  if (!calendar) return;
+
+  calendar.innerHTML = "";
+
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = today.getMonth();
+
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+  // Add empty spacing
+  for (let i = 0; i < firstDay; i++) {
+    const empty = document.createElement("div");
+    calendar.appendChild(empty);
+  }
+
+  // Render days
+  for (let d = 1; d <= daysInMonth; d++) {
+    const cell = document.createElement("div");
+    cell.className = "calendar-day";
+
+    const header = document.createElement("header");
+    header.textContent = d;
+    cell.appendChild(header);
+
+    // Show unfinished tasks for this date
+    tasks.forEach(task => {
+      if (task.done) return;
+
+      const tDate = new Date(task.date);
+      if (
+        tDate.getDate() === d &&
+        tDate.getMonth() === month &&
+        tDate.getFullYear() === year
+      ) {
+        const t = document.createElement("div");
+        t.className = "calendar-task";
+        t.textContent = task.title;
+        cell.appendChild(t);
+      }
+    });
+
+    calendar.appendChild(cell);
+  }
+}
+
 // PROFILE MENU DROPDOWN
 const profileIcon = document.getElementById("profileIcon");
 const profileDropdown = document.getElementById("profileDropdown");
