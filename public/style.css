@@ -617,6 +617,14 @@ body.dark .profile-icon {
   margin-bottom: 3px;
 }
 
+.page-title {
+  font-size: 38px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 10px;
+  margin-top: 40px;
+}
+
 /* Dark Mode */
 body.dark .calendar {
   background: #1b1c22;
@@ -629,4 +637,9 @@ body.dark .calendar-day {
 body.dark .calendar-task {
   background: #5c8bff;
 }
+
+body.dark .page-title {
+  color: white;
+}
+
 
