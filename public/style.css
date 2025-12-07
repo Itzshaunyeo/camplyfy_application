@@ -625,7 +625,7 @@ body.dark .profile-icon {
   margin-top: 40px;
 
 
-  border: 3px solid #3b73ff;
+  border: 3px solid #000000;
   padding: 10px 20px;
   border-radius: 12px;
   width: fit-content;  
@@ -649,7 +649,7 @@ body.dark .calendar-task {
 
 body.dark .page-title {
   color: white;
-  border-color: #5c8bff;
+  border-color: #ffffff;
 }
 
 
