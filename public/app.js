@@ -266,12 +266,6 @@ function updateOverallProgress() {
   text.textContent = percent + "% Completed";
 }
 
-// LOGOUT FUNCTION
-document.getElementById("logoutBtn").addEventListener("click", () => {
-  localStorage.removeItem("loggedIn");
-  window.location.href = "login.html";
-});
-
 // PROFILE MENU DROPDOWN
 const profileIcon = document.getElementById("profileIcon");
 const profileDropdown = document.getElementById("profileDropdown");
@@ -281,7 +275,7 @@ profileIcon.addEventListener("click", () => {
     profileDropdown.style.display === "block" ? "none" : "block";
 });
 
-// Close dropdown when clicking outside
+// Close dropdown on outside click
 document.addEventListener("click", (e) => {
   if (!profileIcon.contains(e.target) && !profileDropdown.contains(e.target)) {
     profileDropdown.style.display = "none";
@@ -293,3 +287,4 @@ document.getElementById("logoutBtn").addEventListener("click", () => {
   localStorage.removeItem("loggedIn");
   window.location.href = "login.html";
 });
+
