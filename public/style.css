@@ -519,8 +519,8 @@ body.dark .logout-btn:hover {
 /* Dropdown Menu */
 .profile-dropdown {
   position: absolute;
-  top: 50px;
-  right: 0;
+  top: 45px;
+  left: 0;
   background: white;
   border-radius: 10px;
   padding: 10px 0;
