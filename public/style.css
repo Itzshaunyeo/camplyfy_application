@@ -576,3 +576,68 @@ body.dark .profile-icon {
   border-color: #ffffff;
 }
 
+
+
+/* -------------------- DUE DATE ALERT -------------------- */
+
+.due-popup {
+  position: fixed;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  padding: 18px 22px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  max-width: 320px;
+  width: 90%;
+  z-index: 9999;
+  text-align: center;
+  animation: slideDown 0.4s ease;
+}
+
+.due-popup h3 {
+  margin: 0 0 8px;
+  font-size: 18px;
+}
+
+.due-popup p {
+  margin: 0 0 14px;
+  font-size: 14px;
+  color: #555;
+}
+
+.due-popup button {
+  background: #3b73ff;
+  color: white;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+/* Dark mode support */
+body.dark .due-popup {
+  background: #1b1c22;
+  color: white;
+}
+
+body.dark .due-popup p {
+  color: #bbb;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -20px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+.hidden {
+  display: none;
+}
+
